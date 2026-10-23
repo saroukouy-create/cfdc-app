@@ -1,6 +1,10 @@
+import { readFileSync } from "node:fs"
 import path from "node:path"
 import { Document, Image, Page, StyleSheet, Text, View } from "@react-pdf/renderer"
 import type { Synthese } from "@/lib/donnees"
+
+// Logo passe en octets : un chemin Windows ("C:\...") serait pris pour une URL par @react-pdf
+const LOGO = readFileSync(path.join(process.cwd(), "public", "images", "logo-cfdc.png"))
 
 // Helvetica (police PDF standard) ne connait pas les espaces fines insecables de fr-FR
 const n = (v: number) => `${new Intl.NumberFormat("fr-FR", { maximumFractionDigits: 0 }).format(v).replace(/[  ]/g, " ")} FCFA`
@@ -36,7 +40,7 @@ export function RapportPDF({ client, synthese, date }: { client: { raisonSociale
         <View style={s.entete}>
           {/* Image @react-pdf (pas une balise HTML) : elle n'a pas d'attribut alt */}
           {/* eslint-disable-next-line jsx-a11y/alt-text */}
-          <Image src={path.join(process.cwd(), "public", "images", "logo-cfdc.png")} style={{ width: 96 }} />
+          <Image src={{ data: LOGO, format: "png" }} style={{ width: 96 }} />
           <Text style={s.sous}>{`Bureau d'études pluridisciplinaire - Rapport de gestion du ${date}`}</Text>
         </View>
 

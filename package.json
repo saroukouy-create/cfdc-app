@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "prisma": "node --env-file=.env.local node_modules/prisma/build/index.js",
-    "db:migrate": "npm run prisma -- migrate dev",
+    "db:migrate": "npm run prisma -- migrate deploy",
     "db:seed": "node --env-file=.env.local node_modules/tsx/dist/cli.mjs prisma/seed.ts",
     "db:studio": "npm run prisma -- studio",
     "test": "node node_modules/tsx/dist/cli.mjs --test src/lib/compta.test.ts"
