@@ -5,7 +5,7 @@ import { notFound } from "next/navigation"
 import { ArrowRight, Check } from "lucide-react"
 import { Reveal } from "@/components/reveal"
 import { PageBanner } from "@/components/site/page-banner"
-import { ContactForm } from "@/components/site/contact-form"
+import { DemandeCTA } from "@/components/site/demande-cta"
 import { SERVICES } from "@/lib/site-content"
 
 // Une page statique par service, generee au build
@@ -71,13 +71,16 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
         </div>
       </section>
 
-      <section className="mx-auto grid max-w-6xl gap-12 px-4 py-16 lg:grid-cols-[1fr_1.3fr]">
+      <section className="mx-auto grid max-w-6xl gap-12 px-4 py-16 lg:grid-cols-[1.3fr_1fr]">
         <Reveal>
-          <h2 className="text-2xl font-semibold tracking-tight">Demandez votre devis gratuit</h2>
-          <p className="mt-3 text-muted-foreground">
-            Décrivez votre besoin : un conseiller CFDC vous recontacte rapidement avec une proposition adaptée.
-          </p>
-          <h3 className="mt-10 text-sm font-semibold text-muted-foreground uppercase">Nos autres services</h3>
+          <DemandeCTA
+            sujet={service.titre}
+            titre="Demandez votre devis gratuit"
+            texte="Depuis votre espace client, décrivez votre besoin : un conseiller CFDC vous recontacte rapidement avec une proposition adaptée."
+          />
+        </Reveal>
+        <Reveal delai={100}>
+          <h3 className="text-sm font-semibold text-muted-foreground uppercase">Nos autres services</h3>
           <ul className="mt-3 space-y-2">
             {autres.map((s) => (
               <li key={s.slug}>
@@ -87,9 +90,6 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
               </li>
             ))}
           </ul>
-        </Reveal>
-        <Reveal delai={100} className="rounded-3xl border p-6 md:p-8">
-          <ContactForm sujets={SERVICES.map((s) => s.titre)} sujet={service.titre} />
         </Reveal>
       </section>
     </>

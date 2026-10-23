@@ -42,7 +42,11 @@ export function SiteHeader() {
         </nav>
 
         <div className="flex items-center gap-2">
-          <Link href="/login" className={cn(buttonVariants({ variant: "outline" }), "hidden sm:inline-flex")}>
+          <Link href="/inscription" className={cn(buttonVariants({ variant: "ghost" }), "hidden lg:inline-flex")}>
+            Créer un compte
+          </Link>
+          {/* Client connecte : directement son espace ; sinon le middleware l'envoie a la connexion */}
+          <Link href="/espace" className={cn(buttonVariants(), "hidden sm:inline-flex")}>
             Espace client
           </Link>
           <button
@@ -70,9 +74,14 @@ export function SiteHeader() {
               {l.label}
             </Link>
           ))}
-          <Link href="/login" className={cn(buttonVariants({ variant: "outline" }), "mt-4 w-full")}>
-            Espace client / collaborateur
-          </Link>
+          <div className="mt-4 grid gap-2">
+            <Link href="/espace" className={cn(buttonVariants({ variant: "outline" }), "w-full")}>
+              Mon espace client
+            </Link>
+            <Link href="/inscription" className={cn(buttonVariants(), "w-full")}>
+              Créer mon espace client
+            </Link>
+          </div>
         </nav>
       )}
     </header>

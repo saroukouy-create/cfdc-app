@@ -21,17 +21,18 @@ export default async function ProspectsPage({ searchParams }: { searchParams: Pr
   const filtre = FILTRES.find((x) => x.key === f) ?? FILTRES[0]
   const demandes = await prisma.demandeContact.findMany({
     where: filtre.statuts ? { statut: { in: [...filtre.statuts] } } : undefined,
+    include: { client: { select: { id: true, raisonSociale: true } } },
     orderBy: { createdAt: "desc" },
   })
 
   return (
     <>
-      <PageHeader titre="Demandes de devis" description="Devis, inscriptions aux formations et messages envoyés depuis le site" />
+      <PageHeader titre="Demandes de devis" description="Devis et inscriptions des clients, messages des visiteurs du site" />
       <nav className="mb-3 flex gap-1" aria-label="Filtrer les demandes">
         {FILTRES.map((x) => (
           <Link
             key={x.key}
-            href={`/prospects?filtre=${x.key}`}
+            href={`/gestion/prospects?filtre=${x.key}`}
             aria-current={x.key === filtre.key ? "page" : undefined}
             className={cn("rounded-lg px-3 py-1.5 text-sm", x.key === filtre.key ? "bg-primary text-primary-foreground" : "hover:bg-muted")}
           >
@@ -62,6 +63,13 @@ export default async function ProspectsPage({ searchParams }: { searchParams: Pr
               <TableRow key={d.id} className="align-top">
                 <TableCell>
                   <span className="block font-medium">{d.nom}</span>
+                  {d.client ? (
+                    <Link href={`/gestion/clients/${d.client.id}`} className="block text-xs font-medium text-primary hover:underline">
+                      Client : {d.client.raisonSociale}
+                    </Link>
+                  ) : (
+                    <span className="block text-xs text-muted-foreground">Visiteur sans compte</span>
+                  )}
                   {d.entreprise && <span className="block text-xs text-muted-foreground">{d.entreprise}</span>}
                   <a href={`mailto:${d.email}`} className="block text-xs text-primary hover:underline">
                     {d.email}

@@ -3,11 +3,12 @@ import { Reveal } from "@/components/reveal"
 import { Horaires } from "@/components/horaires"
 import { PageBanner } from "@/components/site/page-banner"
 import { ContactForm } from "@/components/site/contact-form"
+import { DemandeCTA } from "@/components/site/demande-cta"
 import { SERVICES } from "@/lib/site-content"
 
 export const metadata: Metadata = {
-  title: "Contact et devis",
-  description: "Demandez un devis gratuit à CFDC ou faites-nous part de vos besoins spécifiques.",
+  title: "Contact",
+  description: "Une question pour CFDC ? Écrivez-nous. Pour un devis, créez votre espace client.",
 }
 
 export default async function ContactPage({ searchParams }: { searchParams: Promise<{ service?: string }> }) {
@@ -23,21 +24,22 @@ export default async function ContactPage({ searchParams }: { searchParams: Prom
         alt="Une entrepreneure et son conseiller étudient un dossier"
         fil={[{ href: "/contact", label: "Contact" }]}
       />
-      <section className="mx-auto grid max-w-6xl gap-10 px-4 py-16 lg:grid-cols-[1.4fr_1fr]">
-        <Reveal className="rounded-3xl border p-6 md:p-8">
-          <h2 className="mb-6 text-2xl font-semibold tracking-tight">Demande de devis gratuit</h2>
-          <ContactForm sujets={[...SERVICES.map((s) => s.titre), "Formation professionnelle", "Autre demande"]} sujet={sujet} />
+      <section className="mx-auto grid max-w-6xl gap-10 px-4 py-16 lg:grid-cols-[1.2fr_1fr]">
+        <Reveal>
+          <DemandeCTA
+            sujet={sujet}
+            titre="Demande de devis gratuit"
+            texte="Devis, inscription à une formation, attestation : toutes vos demandes se font depuis votre espace client, où vous en suivez l'avancement."
+          />
         </Reveal>
         <Reveal delai={120} className="h-fit rounded-3xl bg-muted/50 p-6 md:p-8">
           <h2 className="mb-4 text-lg font-semibold">Nos horaires d&apos;ouverture</h2>
           <Horaires />
-          <p className="mt-6 text-sm text-muted-foreground">
-            Déjà client ? Suivez vos dossiers et demandez vos attestations depuis votre{" "}
-            <a href="/login" className="font-medium text-primary hover:underline">
-              espace client
-            </a>
-            .
-          </p>
+        </Reveal>
+        <Reveal className="rounded-3xl border p-6 md:p-8 lg:col-span-2">
+          <h2 className="text-2xl font-semibold tracking-tight">Une simple question ?</h2>
+          <p className="mt-2 mb-6 text-muted-foreground">Écrivez-nous sans créer de compte, nous vous répondons par email ou par téléphone.</p>
+          <ContactForm type="MESSAGE" sujets={[...SERVICES.map((s) => s.titre), "Formations", "Autre question"]} libelleSujet="Votre question concerne" />
         </Reveal>
       </section>
     </>

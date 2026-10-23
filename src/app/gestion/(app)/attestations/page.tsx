@@ -42,7 +42,7 @@ export default async function ServicesPage({ searchParams }: { searchParams: Pro
             {FILTRES.map((x) => (
               <Link
                 key={x.key}
-                href={`/attestations?filtre=${x.key}`}
+                href={`/gestion/attestations?filtre=${x.key}`}
                 aria-current={x.key === filtre.key ? "page" : undefined}
                 className={cn("rounded-lg px-3 py-1.5 text-sm", x.key === filtre.key ? "bg-primary text-primary-foreground" : "hover:bg-muted")}
               >
@@ -78,7 +78,7 @@ export default async function ServicesPage({ searchParams }: { searchParams: Pro
                       </span>
                     </TableCell>
                     <TableCell>
-                      <Link href={`/clients/${d.client.id}`} className="hover:text-primary hover:underline">
+                      <Link href={`/gestion/clients/${d.client.id}`} className="hover:text-primary hover:underline">
                         {d.client.raisonSociale}
                       </Link>
                     </TableCell>

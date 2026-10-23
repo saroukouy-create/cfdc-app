@@ -19,7 +19,7 @@ export default async function CreationEntreprisePage() {
   return (
     <>
       <PageHeader titre="Création d'entreprise" description="Accompagnement du choix de la forme juridique jusqu'à l'immatriculation">
-        <Link href="/creation-entreprise/nouveau" className={buttonVariants()}>
+        <Link href="/gestion/creation-entreprise/nouveau" className={buttonVariants()}>
           Nouveau dossier
         </Link>
       </PageHeader>
@@ -48,7 +48,7 @@ export default async function CreationEntreprisePage() {
               return (
                 <TableRow key={d.id}>
                   <TableCell className="font-medium">
-                    <Link href={`/creation-entreprise/${d.id}`} className="hover:text-primary hover:underline">
+                    <Link href={`/gestion/creation-entreprise/${d.id}`} className="hover:text-primary hover:underline">
                       {d.denomination}
                     </Link>
                   </TableCell>

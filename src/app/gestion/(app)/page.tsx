@@ -30,10 +30,10 @@ export default async function DashboardPage() {
   ])
 
   const kpis = [
-    { label: "Clients", valeur: nbClients, href: "/clients" },
-    { label: "Créations d'entreprise en cours", valeur: dossiersEnCours, href: "/creation-entreprise" },
-    { label: "Attestations à traiter", valeur: demandesOuvertes, href: "/attestations" },
-    { label: "Nouvelles demandes de devis", valeur: prospects, href: "/prospects" },
+    { label: "Clients", valeur: nbClients, href: "/gestion/clients" },
+    { label: "Créations d'entreprise en cours", valeur: dossiersEnCours, href: "/gestion/creation-entreprise" },
+    { label: "Attestations à traiter", valeur: demandesOuvertes, href: "/gestion/attestations" },
+    { label: "Nouvelles demandes de devis", valeur: prospects, href: "/gestion/prospects" },
   ]
 
   return (
@@ -60,7 +60,7 @@ export default async function DashboardPage() {
               <ul className="divide-y">
                 {dossiers.map((d) => (
                   <li key={d.id}>
-                    <Link href={`/creation-entreprise/${d.id}`} className="flex items-center justify-between gap-3 py-2.5 hover:text-primary">
+                    <Link href={`/gestion/creation-entreprise/${d.id}`} className="flex items-center justify-between gap-3 py-2.5 hover:text-primary">
                       <span className="min-w-0">
                         <span className="block truncate font-medium">{d.denomination}</span>
                         <span className="block truncate text-xs text-muted-foreground">{d.client.raisonSociale}</span>

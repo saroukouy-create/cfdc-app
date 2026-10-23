@@ -7,19 +7,22 @@ Stack : Next.js 15 (App Router, `src/`), TypeScript, Tailwind CSS 4, shadcn/ui (
 Prisma 6 + MySQL/MariaDB, NextAuth 4 (identifiants + JWT), Zod, React Hook Form, Recharts,
 @react-pdf/renderer, Sonner.
 
-## Modules
+## Deux portails
 
-| Module | Écrans | Rôles |
-| --- | --- | --- |
-| Site public | `/`, `/services`, `/services/[slug]` (4 services), `/formations`, `/a-propos`, `/contact` | public |
-| Demandes de devis | `/prospects` : devis, inscriptions formation et messages envoyés depuis le site | ADMIN, CONSEILLER |
-| Clients | `/clients`, `/clients/nouveau`, `/clients/[id]` | ADMIN, CONSEILLER |
-| Création d'entreprise | `/creation-entreprise` : stepper 5 étapes (informations, forme juridique, pièces, dépôt, suivi) + téléversement | ADMIN, CONSEILLER |
-| Comptabilité | `/comptabilite` : import CSV, cycle comptable, trésorerie, compte de résultat, bilan, balance | ADMIN, CONSEILLER |
-| Attestations & services | `/attestations` : attestations fiscale/CNSS, non faillite, quitus, domiciliation, inventaires… | ADMIN, CONSEILLER |
-| Rapport PDF | `/api/rapports/pdf?clientId=…` | personnel ; le client pour lui-même |
-| Administration | `/admin` : comptes de l'équipe | ADMIN |
-| Espace client | `/espace` : tableaux de bord, dossiers (dépôt de pièces), demandes | CLIENT |
+| Portail | Adresses | Connexion | Comptes |
+| --- | --- | --- | --- |
+| **Client** | site public (`/`, `/services`, `/formations`, `/a-propos`, `/contact`), `/inscription`, `/connexion`, espace `/espace` | `/connexion` | CLIENT (inscription libre depuis le site) |
+| **Gestion** | `/gestion` (tableau de bord), `/gestion/clients`, `/gestion/creation-entreprise`, `/gestion/comptabilite`, `/gestion/attestations`, `/gestion/prospects`, `/gestion/admin` | `/gestion/connexion` | ADMIN, CONSEILLER (créés dans `/gestion/admin`) |
+
+La séparation est imposée côté serveur : chaque page de connexion envoie son portail et `authorize`
+(`src/lib/auth.ts`) refuse un compte d'un autre type ; le middleware renvoie chaque rôle vers son portail.
+
+Demandes : toute demande (devis, inscription formation, attestation) se fait depuis l'espace client ;
+les boutons du site y mènent en passant par la connexion ou l'inscription, avec le formulaire prérempli.
+Seul un simple message reste possible sans compte (page Contact). L'équipe traite devis et messages
+dans `/gestion/prospects`, les attestations dans `/gestion/attestations`.
+
+Les anciennes adresses (`/login`, `/dashboard`, `/clients`…) redirigent vers les nouvelles.
 
 ## Développement local
 

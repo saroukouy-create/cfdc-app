@@ -15,6 +15,8 @@ export const authOptions: NextAuthOptions = {
       credentials: {
         email: { label: "Email", type: "email" },
         password: { label: "Mot de passe", type: "password" },
+        // Portail d'ou vient la connexion : "gestion" (equipe CFDC) ou "client"
+        portail: { label: "Portail", type: "text" },
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) return null
@@ -24,6 +26,9 @@ export const authOptions: NextAuthOptions = {
         if (!user) return null
         const valid = await bcrypt.compare(credentials.password, user.password)
         if (!valid) return null
+        // Separation des portails, imposee cote serveur : un client ne se connecte pas a la gestion, et inversement
+        const estEquipe = STAFF.includes(user.role)
+        if ((credentials.portail === "gestion") !== estEquipe) return null
         return { id: user.id, email: user.email, name: `${user.prenom} ${user.nom}`, role: user.role }
       },
     }),
@@ -42,7 +47,7 @@ export const authOptions: NextAuthOptions = {
       return session
     },
   },
-  pages: { signIn: "/login" },
+  pages: { signIn: "/connexion" },
 }
 
 export const STAFF: Role[] = ["ADMIN", "CONSEILLER"]

@@ -14,7 +14,7 @@ export const metadata: Metadata = { title: "Administration" }
 
 export default async function AdminPage() {
   const session = await getSession()
-  if (session?.user.role !== "ADMIN") redirect("/dashboard")
+  if (session?.user.role !== "ADMIN") redirect("/gestion")
 
   const [equipe, stats] = await Promise.all([
     prisma.user.findMany({

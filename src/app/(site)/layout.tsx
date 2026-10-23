@@ -58,7 +58,10 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
           </div>
         </div>
         <p className="border-t border-background/15 py-4 text-center text-xs text-background/60">
-          © {new Date().getFullYear()} Cabinet CFDC · Bureau d&apos;études pluridisciplinaire
+          © {new Date().getFullYear()} Cabinet CFDC · Bureau d&apos;études pluridisciplinaire ·{" "}
+          <Link href="/gestion/connexion" className="hover:text-background hover:underline">
+            Accès équipe
+          </Link>
         </p>
       </footer>
     </div>

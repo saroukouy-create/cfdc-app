@@ -38,6 +38,7 @@ model Client {
   dossiers        Dossier[]
   ecritures       Ecriture[]
   demandes        DemandeService[]
+  contacts        DemandeContact[]
   createdAt       DateTime         @default(now())
 }
 
@@ -163,8 +164,12 @@ model DemandeContact {
   message    String?       @db.Text
   statut     StatutContact @default(NOUVEAU)
   note       String?       @db.Text
+  // Rempli quand la demande vient d'un client connecte (devis, formation) ; vide pour un simple message
+  clientId   String?
+  client     Client?       @relation(fields: [clientId], references: [id], onDelete: SetNull)
   createdAt  DateTime      @default(now())
   updatedAt  DateTime      @updatedAt
 
   @@index([statut, createdAt])
+  @@index([clientId])
 }

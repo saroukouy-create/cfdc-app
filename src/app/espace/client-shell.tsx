@@ -11,7 +11,7 @@ const NAV: NavItem[] = [
 
 export function ClientShell({ utilisateur, children }: { utilisateur: string; children: React.ReactNode }) {
   return (
-    <AppShell nav={NAV} utilisateur={utilisateur}>
+    <AppShell nav={NAV} utilisateur={utilisateur} connexion="/connexion">
       {children}
     </AppShell>
   )

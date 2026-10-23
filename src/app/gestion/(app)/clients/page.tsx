@@ -22,7 +22,7 @@ export default async function ClientsPage({ searchParams }: { searchParams: Prom
   return (
     <>
       <PageHeader titre="Clients" description={`${clients.length} client${clients.length > 1 ? "s" : ""}`}>
-        <Link href="/clients/nouveau" className={buttonVariants()}>
+        <Link href="/gestion/clients/nouveau" className={buttonVariants()}>
           Nouveau client
         </Link>
       </PageHeader>
@@ -60,7 +60,7 @@ export default async function ClientsPage({ searchParams }: { searchParams: Prom
                 <TableCell className="hidden md:table-cell">{c.secteurActivite ?? "—"}</TableCell>
                 <TableCell className="hidden md:table-cell">{c.user.email}</TableCell>
                 <TableCell className="text-right">
-                  <Link href={`/clients/${c.id}`} className={buttonVariants({ variant: "ghost", size: "sm" })}>
+                  <Link href={`/gestion/clients/${c.id}`} className={buttonVariants({ variant: "ghost", size: "sm" })}>
                     Ouvrir
                   </Link>
                 </TableCell>

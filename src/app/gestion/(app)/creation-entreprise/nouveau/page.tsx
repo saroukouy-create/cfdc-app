@@ -17,7 +17,7 @@ export default async function NouveauDossierPage({ searchParams }: { searchParam
       {clients.length === 0 ? (
         <p className="text-muted-foreground">
           Créez d&apos;abord la fiche du porteur de projet.{" "}
-          <Link href="/clients/nouveau" className={buttonVariants({ variant: "link" })}>
+          <Link href="/gestion/clients/nouveau" className={buttonVariants({ variant: "link" })}>
             Nouveau client
           </Link>
         </p>

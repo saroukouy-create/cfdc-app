@@ -2,7 +2,7 @@ import type { Metadata } from "next"
 import { BookOpen, Calculator, FileText, Sheet } from "lucide-react"
 import { Reveal } from "@/components/reveal"
 import { PageBanner } from "@/components/site/page-banner"
-import { ContactForm } from "@/components/site/contact-form"
+import { DemandeCTA } from "@/components/site/demande-cta"
 import { FORMATIONS } from "@/lib/site-content"
 
 export const metadata: Metadata = {
@@ -45,15 +45,13 @@ export default function FormationsPage() {
       </section>
 
       <section className="border-t bg-muted/40">
-        <div className="mx-auto grid max-w-6xl gap-12 px-4 py-16 lg:grid-cols-[1fr_1.3fr]">
+        <div className="mx-auto max-w-3xl px-4 py-16">
           <Reveal>
-            <h2 className="text-2xl font-semibold tracking-tight">Inscription</h2>
-            <p className="mt-3 text-muted-foreground">
-              Choisissez votre formation : nous vous recontactons pour les dates, le lieu et les modalités.
-            </p>
-          </Reveal>
-          <Reveal delai={100} className="rounded-3xl border bg-background p-6 md:p-8">
-            <ContactForm type="FORMATION" sujets={FORMATIONS.map((f) => f.titre)} libelleSujet="Formation souhaitée" />
+            <DemandeCTA
+              type="FORMATION"
+              titre="S'inscrire à une formation"
+              texte="Choisissez votre formation depuis votre espace client : nous vous recontactons pour les dates, le lieu et les modalités."
+            />
           </Reveal>
         </div>
       </section>

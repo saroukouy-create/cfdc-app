@@ -25,7 +25,7 @@ export default async function DossierPage({ params }: { params: Promise<{ id: st
       </PageHeader>
       <p className="-mt-4 mb-6 text-sm text-muted-foreground">
         Porteur de projet :{" "}
-        <Link href={`/clients/${dossier.client.id}`} className="text-primary hover:underline">
+        <Link href={`/gestion/clients/${dossier.client.id}`} className="text-primary hover:underline">
           {dossier.client.raisonSociale}
         </Link>
       </p>

@@ -29,7 +29,7 @@ export function DossierForm({ clients, clientId }: { clients: { id: string; rais
     const dossier = await appelApi<{ id: string }>("/api/dossiers", { method: "POST", body: data })
     if (!dossier) return
     toast.success("Dossier créé")
-    router.push(`/creation-entreprise/${dossier.id}`)
+    router.push(`/gestion/creation-entreprise/${dossier.id}`)
   }
 
   return (

@@ -40,10 +40,10 @@ export default async function ClientPage({ params }: { params: Promise<{ id: str
   return (
     <>
       <PageHeader titre={client.raisonSociale} description={`Client depuis le ${formatDate(client.createdAt)}`}>
-        <Link href={`/creation-entreprise/nouveau?clientId=${id}`} className={buttonVariants({ variant: "outline" })}>
+        <Link href={`/gestion/creation-entreprise/nouveau?clientId=${id}`} className={buttonVariants({ variant: "outline" })}>
           Nouveau dossier de création
         </Link>
-        <Link href={`/comptabilite?clientId=${id}`} className={buttonVariants({ variant: "outline" })}>
+        <Link href={`/gestion/comptabilite?clientId=${id}`} className={buttonVariants({ variant: "outline" })}>
           Comptabilité
         </Link>
         <a href={`/api/rapports/pdf?clientId=${id}`} target="_blank" className={buttonVariants()}>
@@ -99,7 +99,7 @@ export default async function ClientPage({ params }: { params: Promise<{ id: str
               <ul className="divide-y">
                 {client.dossiers.map((d) => (
                   <li key={d.id}>
-                    <Link href={`/creation-entreprise/${d.id}`} className="flex items-center justify-between gap-2 py-2.5 hover:text-primary">
+                    <Link href={`/gestion/creation-entreprise/${d.id}`} className="flex items-center justify-between gap-2 py-2.5 hover:text-primary">
                       <span className="font-medium">{d.denomination}</span>
                       <span className="flex gap-1.5">
                         <Badge variant="outline">{ETAPES.find((e) => e.key === d.etape)?.label}</Badge>

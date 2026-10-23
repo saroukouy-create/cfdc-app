@@ -1,31 +1,26 @@
-import { withAuth } from "next-auth/middleware"
-import { NextResponse } from "next/server"
+import { getToken } from "next-auth/jwt"
+import { NextResponse, type NextRequest } from "next/server"
 
-const STAFF_PATHS = ["/dashboard", "/clients", "/creation-entreprise", "/comptabilite", "/attestations", "/prospects", "/admin"]
+// Deux portails : /gestion (equipe CFDC) et /espace (clients), chacun avec sa page de connexion.
+export async function middleware(req: NextRequest) {
+  const { pathname, search } = req.nextUrl
+  const gestion = pathname.startsWith("/gestion")
+  const token = await getToken({ req })
 
-export default withAuth(
-  function middleware(req) {
-    const role = req.nextauth.token?.role
-    const path = req.nextUrl.pathname
-    const isStaffPath = STAFF_PATHS.some((p) => path.startsWith(p))
+  if (!token) {
+    const connexion = new URL(gestion ? "/gestion/connexion" : "/connexion", req.url)
+    connexion.searchParams.set("callbackUrl", pathname + search)
+    return NextResponse.redirect(connexion)
+  }
 
-    if (isStaffPath && role === "CLIENT") return NextResponse.redirect(new URL("/espace", req.url))
-    if (path.startsWith("/admin") && role !== "ADMIN") return NextResponse.redirect(new URL("/dashboard", req.url))
-    if (path.startsWith("/espace") && role !== "CLIENT") return NextResponse.redirect(new URL("/dashboard", req.url))
-    return NextResponse.next()
-  },
-  { pages: { signIn: "/login" } },
-)
+  const equipe = token.role === "ADMIN" || token.role === "CONSEILLER"
+  if (gestion && !equipe) return NextResponse.redirect(new URL("/espace", req.url))
+  if (!gestion && equipe) return NextResponse.redirect(new URL("/gestion", req.url))
+  if (pathname.startsWith("/gestion/admin") && token.role !== "ADMIN") return NextResponse.redirect(new URL("/gestion", req.url))
+  return NextResponse.next()
+}
 
 export const config = {
-  matcher: [
-    "/dashboard/:path*",
-    "/clients/:path*",
-    "/creation-entreprise/:path*",
-    "/comptabilite/:path*",
-    "/attestations/:path*",
-    "/prospects/:path*",
-    "/admin/:path*",
-    "/espace/:path*",
-  ],
+  // La page /gestion/connexion reste publique
+  matcher: ["/gestion", "/gestion/((?!connexion).*)", "/espace/:path*"],
 }

@@ -26,7 +26,7 @@ export function ClientForm() {
     const client = await appelApi<{ id: string }>("/api/clients", { method: "POST", body: data })
     if (!client) return
     toast.success("Client créé")
-    router.push(`/clients/${client.id}`)
+    router.push(`/gestion/clients/${client.id}`)
     router.refresh()
   }
 

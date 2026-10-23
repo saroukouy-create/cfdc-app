@@ -2,36 +2,45 @@
 
 import { useState } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
-import { getSession, signIn } from "next-auth/react"
+import { signIn } from "next-auth/react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 
-export function LoginForm() {
+/** Destination apres connexion : callbackUrl interne au portail, sinon l'accueil du portail. */
+export function cibleApresConnexion(callbackUrl: string | null, accueil: string) {
+  const interne = callbackUrl && callbackUrl.startsWith("/") && !callbackUrl.startsWith("//")
+  return interne && callbackUrl.startsWith(accueil) ? callbackUrl : accueil
+}
+
+export function LoginForm({ portail }: { portail: "client" | "gestion" }) {
   const router = useRouter()
   const callbackUrl = useSearchParams().get("callbackUrl")
   const [erreur, setErreur] = useState("")
   const [envoi, setEnvoi] = useState(false)
+  const accueil = portail === "gestion" ? "/gestion" : "/espace"
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
     setEnvoi(true)
     setErreur("")
     const form = new FormData(e.currentTarget)
+    // Le serveur refuse un compte qui n'appartient pas a ce portail (voir authorize dans lib/auth.ts)
     const res = await signIn("credentials", {
       email: form.get("email"),
       password: form.get("password"),
+      portail,
       redirect: false,
     })
     if (!res?.ok) {
       setEnvoi(false)
-      return setErreur("Email ou mot de passe incorrect")
+      return setErreur(
+        portail === "gestion"
+          ? "Identifiants incorrects ou compte non autorisé sur l'espace de gestion."
+          : "Email ou mot de passe incorrect.",
+      )
     }
-    // Redirection selon le role : clients vers leur espace, personnel vers le tableau de bord
-    const session = await getSession()
-    const accueil = session?.user.role === "CLIENT" ? "/espace" : "/dashboard"
-    const cible = callbackUrl && callbackUrl.startsWith("/") && !callbackUrl.startsWith("//") ? callbackUrl : accueil
-    router.replace(cible)
+    router.replace(cibleApresConnexion(callbackUrl, accueil))
     router.refresh()
   }
 
@@ -50,7 +59,7 @@ export function LoginForm() {
           {erreur}
         </p>
       )}
-      <Button type="submit" className="w-full" disabled={envoi}>
+      <Button type="submit" className="w-full" size="lg" disabled={envoi}>
         {envoi ? "Connexion…" : "Se connecter"}
       </Button>
     </form>

@@ -103,3 +103,19 @@ export const contactUpdateSchema = z.object({
 })
 
 export type ContactInput = z.input<typeof contactSchema>
+
+// Inscription d'un client depuis le site (cree un compte CLIENT et sa fiche)
+export const inscriptionSchema = z
+  .object({
+    prenom: z.string().trim().min(1, "Prénom requis").max(80),
+    nom: z.string().trim().min(1, "Nom requis").max(80),
+    email: z.email("Email invalide").transform((v) => v.toLowerCase()),
+    telephone: z.string().trim().min(8, "Téléphone requis").max(30),
+    raisonSociale: texte, // facultatif : un porteur de projet n'a pas encore d'entreprise
+    password: motDePasse,
+    confirmation: z.string(),
+    site_web: z.string().optional(),
+  })
+  .refine((d) => d.password === d.confirmation, { path: ["confirmation"], message: "Les mots de passe ne correspondent pas" })
+
+export type InscriptionInput = z.input<typeof inscriptionSchema>
