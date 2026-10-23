@@ -189,3 +189,36 @@
 }
 .entree-page { animation: cfdc-page 450ms cubic-bezier(0.22, 1, 0.36, 1) both; }
 @media (prefers-reduced-motion: reduce) { .entree-page { animation: none; } }
+
+/* ---------- Tous supports (PC, Android, iOS, tablettes) ---------- */
+
+/* iPhone a encoche (viewport-fit=cover) : rien sous l'encoche en paysage ni sous la barre d'accueil */
+body {
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* Pas de surbrillance grise au toucher (Android/iOS), pas de zoom du texte en paysage sur iOS */
+html {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+/* Ecrans tactiles uniquement (la souris garde l'interface compacte) */
+@media (pointer: coarse) {
+  /* Cibles d'au moins 44 px (recommandation Apple et Android) ; sans effet sur les liens en ligne */
+  a,
+  button,
+  select,
+  [role="button"],
+  input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]) {
+    min-height: 44px;
+  }
+  /* Liens inline ou dans les listes : zone de toucher agrandie sans changer la mise en page */
+  p a, dd a { padding-block: 0.6rem; margin-block: -0.6rem; }
+  input[type="checkbox"], input[type="radio"] { width: 1.25rem; height: 1.25rem; }
+  /* Texte des champs a 16 px : sous 16 px, Safari iOS zoome a chaque saisie */
+  input, select, textarea { font-size: 16px !important; }
+}

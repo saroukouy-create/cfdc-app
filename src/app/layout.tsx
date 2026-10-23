@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter, Geist_Mono } from "next/font/google";
 import { Toaster } from "sonner";
 import "./globals.css";
@@ -17,6 +17,17 @@ export const metadata: Metadata = {
   title: { default: "CFDC — Bureau d'études", template: "%s · CFDC" },
   description:
     "CFDC accompagne les entrepreneurs et dirigeants de TPE/PME : création d'entreprise, gestion, assistance comptable, fiscale et sociale.",
+  // iOS : ajout a l'ecran d'accueil en mode application
+  appleWebApp: { capable: true, title: "CFDC", statusBarStyle: "default" },
+  formatDetection: { telephone: false },
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  // occupe tout l'ecran des iPhone a encoche ; les marges sures sont gerees en CSS (env(safe-area-inset-*))
+  viewportFit: "cover",
+  themeColor: "#0f4c81",
 };
 
 export default function RootLayout({
