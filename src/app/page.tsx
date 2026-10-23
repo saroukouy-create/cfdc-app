@@ -1,103 +1,137 @@
-import Image from "next/image";
+import Link from "next/link"
+import { Briefcase, Building2, Calculator, FileCheck2, GraduationCap, ShieldCheck } from "lucide-react"
+import { buttonVariants } from "@/components/ui/button"
+import { Horaires } from "@/components/horaires"
 
-export default function Home() {
+// Contenu issu du document "ACTIVITES CFDC"
+const POLES = [
+  {
+    icon: Building2,
+    titre: "Création d'entreprise",
+    points: ["Conseil et accompagnement dans le choix de la forme juridique", "Rédaction des statuts et formalités administratives"],
+  },
+  {
+    icon: Briefcase,
+    titre: "Gestion d'entreprise",
+    points: [
+      "Suivi comptable et financier",
+      "Tableaux de bord et analyses de performance",
+      "Conseils en gestion et optimisation des résultats",
+      "Aide à la prise de décision stratégique",
+    ],
+  },
+  {
+    icon: Calculator,
+    titre: "Assistance comptable, fiscale et sociale",
+    points: [
+      "Tenue de la comptabilité et comptes annuels",
+      "Déclaration d'impôts et optimisation fiscale",
+      "Gestion des paies et des déclarations sociales",
+    ],
+  },
+  {
+    icon: FileCheck2,
+    titre: "Attestations et documents",
+    points: [
+      "Attestation fiscale, attestation CNSS",
+      "Certificat de non faillite, quitus fiscal",
+      "Attestation de domiciliation fiscale",
+      "Réalisation d'inventaires et tous documents administratifs",
+    ],
+  },
+  {
+    icon: GraduationCap,
+    titre: "Formations professionnelles",
+    points: ["Secrétaire comptable", "Excel et Word", "Logiciel comptable Perfecto"],
+  },
+]
+
+const ATOUTS = [
+  "Une équipe d'experts pluridisciplinaires à votre écoute",
+  "Une approche personnalisée et adaptée à vos besoins",
+  "Un suivi rigoureux et des conseils de qualité",
+  "Un engagement de confidentialité et de respect des normes",
+  "Un réseau de partenaires fiables pour tous vos projets",
+]
+
+export default function Accueil() {
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    <div className="min-h-dvh bg-background">
+      <header className="border-b">
+        <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4">
+          <span className="text-lg font-bold tracking-tight text-primary">CFDC</span>
+          <Link href="/login" className={buttonVariants({ variant: "outline" })}>
+            Espace client / collaborateur
+          </Link>
         </div>
+      </header>
+
+      <main>
+        <section className="mx-auto max-w-6xl px-4 py-16 md:py-24">
+          <p className="text-sm font-medium tracking-wide text-primary uppercase">Bureau d&apos;études pluridisciplinaire</p>
+          <h1 className="mt-3 max-w-3xl text-4xl font-bold tracking-tight text-balance md:text-5xl">
+            Votre partenaire de confiance pour une création d&apos;entreprise réussie et une gestion sereine.
+          </h1>
+          <p className="mt-5 max-w-2xl text-lg text-muted-foreground text-pretty">
+            CFDC accompagne les entrepreneurs et les dirigeants de TPE/PME à toutes les étapes de la vie de leur entreprise.
+            Notre mission : vous simplifier la vie entrepreneuriale.
+          </p>
+          <div className="mt-8 flex flex-wrap gap-3">
+            <a href="#contact" className={buttonVariants({ size: "lg" })}>
+              Demander un devis gratuit
+            </a>
+            <Link href="/login" className={buttonVariants({ size: "lg", variant: "outline" })}>
+              Suivre mon dossier
+            </Link>
+          </div>
+        </section>
+
+        <section className="border-y bg-muted/40">
+          <div className="mx-auto max-w-6xl px-4 py-16">
+            <h2 className="text-2xl font-semibold tracking-tight">Nos services</h2>
+            <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {POLES.map(({ icon: Icon, titre, points }) => (
+                <article key={titre} className="rounded-xl border bg-card p-6">
+                  <Icon className="size-6 text-primary" aria-hidden />
+                  <h3 className="mt-4 font-semibold">{titre}</h3>
+                  <ul className="mt-3 space-y-1.5 text-sm text-muted-foreground">
+                    {points.map((p) => (
+                      <li key={p}>{p}</li>
+                    ))}
+                  </ul>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="mx-auto grid max-w-6xl gap-12 px-4 py-16 md:grid-cols-2" id="contact">
+          <div>
+            <h2 className="flex items-center gap-2 text-2xl font-semibold tracking-tight">
+              <ShieldCheck className="size-6 text-primary" aria-hidden /> Pourquoi choisir CFDC ?
+            </h2>
+            <ul className="mt-6 space-y-3">
+              {ATOUTS.map((a) => (
+                <li key={a} className="border-l-2 border-primary pl-3">
+                  {a}
+                </li>
+              ))}
+            </ul>
+            <p className="mt-8 text-muted-foreground">
+              Contactez-nous dès aujourd&apos;hui pour un devis gratuit ou pour nous faire part de vos besoins spécifiques.
+              Nous sommes là pour vous aider à développer votre entreprise.
+            </p>
+          </div>
+          <div className="rounded-xl border p-6">
+            <h2 className="mb-4 text-lg font-semibold">Nos horaires d&apos;ouverture</h2>
+            <Horaires />
+          </div>
+        </section>
       </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
+
+      <footer className="border-t py-6 text-center text-sm text-muted-foreground">
+        CFDC : bien plus qu&apos;un simple bureau d&apos;études, un véritable partenaire de confiance pour votre réussite.
       </footer>
     </div>
-  );
+  )
 }

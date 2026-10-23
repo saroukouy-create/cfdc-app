@@ -1,0 +1,85 @@
+import { z } from "zod"
+import { ETAPES, TYPE_SERVICE } from "./constants"
+
+// Champs texte optionnels : "" -> undefined
+const texte = z
+  .string()
+  .trim()
+  .optional()
+  .transform((v) => v || undefined)
+
+// Montant saisi en texte ("1 500 000") -> nombre
+const montant = z
+  .string()
+  .optional()
+  .transform((v) => (v && v.trim() ? Number(v.replace(/[\s  ]/g, "").replace(",", ".")) : undefined))
+  .refine((v) => v === undefined || (Number.isFinite(v) && v >= 0), "Montant invalide")
+
+const motDePasse = z.string().min(8, "8 caractères minimum")
+
+export const clientSchema = z.object({
+  raisonSociale: z.string().trim().min(2, "Raison sociale requise"),
+  formeJuridique: texte,
+  secteurActivite: texte,
+  chiffreAffaires: montant,
+  telephone: texte,
+  adresse: texte,
+  ifu: texte,
+  prenom: z.string().trim().min(1, "Prénom requis"),
+  nom: z.string().trim().min(1, "Nom requis"),
+  email: z.email("Email invalide").transform((v) => v.toLowerCase()),
+  password: motDePasse,
+})
+
+export const dossierSchema = z.object({
+  clientId: z.string().min(1, "Client requis"),
+  denomination: z.string().trim().min(2, "Dénomination requise"),
+  activite: texte,
+  formeJuridique: texte,
+  capital: montant,
+  siege: texte,
+})
+
+const etapes = ETAPES.map((e) => e.key) as [string, ...string[]]
+
+export const dossierUpdateSchema = z.object({
+  denomination: z.string().trim().min(2).optional(),
+  activite: texte,
+  formeJuridique: texte,
+  capital: montant,
+  siege: texte,
+  etape: z.enum(etapes).optional(),
+  statut: z.enum(["EN_COURS", "DEPOSE", "TERMINE", "ABANDONNE"]).optional(),
+  dateDepot: texte.transform((v) => (v ? new Date(v) : undefined)),
+  numeroRccm: texte,
+  notes: texte,
+})
+
+export const demandeSchema = z.object({
+  type: z.enum(Object.keys(TYPE_SERVICE) as [string, ...string[]], "Type de service requis"),
+  description: texte,
+  clientId: z.string().optional(), // impose par le personnel ; deduit de la session pour un client
+})
+
+export const demandeUpdateSchema = z.object({
+  statut: z.enum(["NOUVELLE", "EN_COURS", "PRETE", "LIVREE", "REJETEE"]),
+  reponse: texte,
+})
+
+export const userSchema = z.object({
+  prenom: z.string().trim().min(1, "Prénom requis"),
+  nom: z.string().trim().min(1, "Nom requis"),
+  email: z.email("Email invalide").transform((v) => v.toLowerCase()),
+  password: motDePasse,
+  role: z.enum(["ADMIN", "CONSEILLER"]),
+})
+
+export type ClientInput = z.input<typeof clientSchema>
+export type DossierInput = z.input<typeof dossierSchema>
+export type UserInput = z.input<typeof userSchema>
+
+/** Premier message d'erreur Zod, pour une reponse 400 lisible. */
+export function erreurZod(e: z.ZodError) {
+  const i = e.issues[0]
+  return i ? `${i.path.join(".") || "requête"} : ${i.message}` : "Données invalides"
+}

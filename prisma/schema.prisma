@@ -1,0 +1,139 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  CONSEILLER
+  CLIENT
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  nom       String
+  prenom    String
+  role      Role     @default(CLIENT)
+  client    Client?
+  createdAt DateTime @default(now())
+}
+
+model Client {
+  id              String           @id @default(cuid())
+  raisonSociale   String
+  formeJuridique  String?
+  secteurActivite String?
+  chiffreAffaires Float?
+  telephone       String?
+  adresse         String?
+  ifu             String?
+  userId          String           @unique
+  user            User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  dossiers        Dossier[]
+  ecritures       Ecriture[]
+  demandes        DemandeService[]
+  createdAt       DateTime         @default(now())
+}
+
+// Creation d'entreprise : 5 etapes du stepper
+enum EtapeDossier {
+  INFORMATIONS
+  FORME_JURIDIQUE
+  PIECES
+  DEPOT
+  SUIVI
+}
+
+enum StatutDossier {
+  EN_COURS
+  DEPOSE
+  TERMINE
+  ABANDONNE
+}
+
+model Dossier {
+  id             String        @id @default(cuid())
+  denomination   String
+  activite       String?
+  formeJuridique String?
+  capital        Float?
+  siege          String?
+  etape          EtapeDossier  @default(INFORMATIONS)
+  statut         StatutDossier @default(EN_COURS)
+  dateDepot      DateTime?
+  numeroRccm     String?
+  notes          String?       @db.Text
+  clientId       String
+  client         Client        @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  pieces         Piece[]
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+}
+
+model Piece {
+  id        String   @id @default(cuid())
+  nom       String
+  chemin    String
+  taille    Int
+  type      String
+  dossierId String
+  dossier   Dossier  @relation(fields: [dossierId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+}
+
+// Comptabilite : ecritures au plan SYSCOHADA (compte = numero, classe = 1er chiffre)
+model Ecriture {
+  id       String   @id @default(cuid())
+  date     DateTime
+  journal  String
+  piece    String?
+  compte   String
+  libelle  String
+  debit    Decimal  @default(0) @db.Decimal(15, 2)
+  credit   Decimal  @default(0) @db.Decimal(15, 2)
+  clientId String
+  client   Client   @relation(fields: [clientId], references: [id], onDelete: Cascade)
+
+  @@index([clientId, date])
+  @@index([clientId, compte])
+}
+
+// Services : attestations et documents administratifs
+enum TypeService {
+  ATTESTATION_FISCALE
+  ATTESTATION_CNSS
+  CERTIFICAT_NON_FAILLITE
+  ATTESTATION_DOMICILIATION_FISCALE
+  QUITUS_FISCAL
+  INVENTAIRE
+  DECLARATION_IMPOTS
+  PAIE_DECLARATIONS_SOCIALES
+  FORMATION
+  AUTRE
+}
+
+enum StatutDemande {
+  NOUVELLE
+  EN_COURS
+  PRETE
+  LIVREE
+  REJETEE
+}
+
+model DemandeService {
+  id          String        @id @default(cuid())
+  type        TypeService
+  description String?       @db.Text
+  statut      StatutDemande @default(NOUVELLE)
+  reponse     String?       @db.Text
+  clientId    String
+  client      Client        @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+}
