@@ -1,5 +1,6 @@
 "use client"
 
+import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { signOut } from "next-auth/react"
@@ -16,8 +17,8 @@ export function AppShell({ nav, utilisateur, children }: { nav: NavItem[]; utili
     <div className="min-h-dvh md:grid md:grid-cols-[15rem_1fr]">
       <aside className="border-b bg-sidebar md:sticky md:top-0 md:flex md:h-dvh md:flex-col md:border-r md:border-b-0">
         <div className="flex items-center justify-between px-4 py-4">
-          <Link href="/" className="text-lg font-bold text-primary">
-            CFDC
+          <Link href="/" aria-label="CFDC, accueil">
+            <Image src="/images/logo-cfdc.png" alt="Cabinet CFDC" width={336} height={210} priority className="h-11 w-auto" />
           </Link>
         </div>
         <nav className="flex gap-1 overflow-x-auto px-2 pb-2 md:flex-1 md:flex-col md:overflow-visible" aria-label="Navigation principale">

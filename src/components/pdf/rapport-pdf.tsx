@@ -1,4 +1,5 @@
-import { Document, Page, StyleSheet, Text, View } from "@react-pdf/renderer"
+import path from "node:path"
+import { Document, Image, Page, StyleSheet, Text, View } from "@react-pdf/renderer"
 import type { Synthese } from "@/lib/donnees"
 
 // Helvetica (police PDF standard) ne connait pas les espaces fines insecables de fr-FR
@@ -33,7 +34,9 @@ export function RapportPDF({ client, synthese, date }: { client: { raisonSociale
     <Document title={`Rapport de gestion - ${client.raisonSociale}`} author="CFDC">
       <Page size="A4" style={s.page}>
         <View style={s.entete}>
-          <Text style={s.marque}>CFDC</Text>
+          {/* Image @react-pdf (pas une balise HTML) : elle n'a pas d'attribut alt */}
+          {/* eslint-disable-next-line jsx-a11y/alt-text */}
+          <Image src={path.join(process.cwd(), "public", "images", "logo-cfdc.png")} style={{ width: 96 }} />
           <Text style={s.sous}>{`Bureau d'études pluridisciplinaire - Rapport de gestion du ${date}`}</Text>
         </View>
 

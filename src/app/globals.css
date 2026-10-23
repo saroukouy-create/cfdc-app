@@ -23,6 +23,7 @@
   --color-chart-3: var(--chart-3);
   --color-chart-2: var(--chart-2);
   --color-chart-1: var(--chart-1);
+  --color-marque: var(--marque);
   --color-ring: var(--ring);
   --color-input: var(--input);
   --color-border: var(--border);
@@ -70,6 +71,8 @@
   --chart-1: oklch(0.6 0.12 165);
   --chart-2: oklch(0.7 0.15 55);
   --chart-3: oklch(0.5 0.13 250);
+  /* Rouge du logo CFDC (lettres "CFDC") */
+  --marque: oklch(0.55 0.21 25);
   --chart-4: oklch(0.371 0 0);
   --chart-5: oklch(0.269 0 0);
   --radius: 0.625rem;
@@ -127,4 +130,54 @@
   html {
     @apply font-sans;
   }
+}
+/* ---------- Motion design du site ----------
+   Principes : courbes et durees variees, l'element le plus important bouge en premier,
+   cascade totale < 500 ms, zoom lent (x1.04) sur les photos, entree sur le parent / zoom sur l'enfant. */
+@keyframes cfdc-montee {
+  from { opacity: 0; transform: translateY(28px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes cfdc-glisse {
+  from { opacity: 0; transform: translateX(-16px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes cfdc-devoile {
+  from { clip-path: inset(100% 0 0 0 round 1.5rem); }
+  to { clip-path: inset(0 0 0 0 round 1.5rem); }
+}
+@keyframes cfdc-zoom-lent {
+  from { transform: scale(1); }
+  to { transform: scale(1.04); }
+}
+@keyframes cfdc-vol {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-6px) rotate(-1.5deg); }
+}
+
+/* Entree du heros : titre d'abord (le plus important), puis texte, boutons, photo */
+.entree-titre { animation: cfdc-montee 900ms cubic-bezier(0.16, 1, 0.3, 1) both; }
+.entree-texte { animation: cfdc-montee 650ms ease-out 120ms both; }
+.entree-boutons { animation: cfdc-montee 500ms cubic-bezier(0.34, 1.56, 0.64, 1) 240ms both; }
+.entree-logo { animation: cfdc-glisse 600ms cubic-bezier(0.22, 1, 0.36, 1) both; }
+.entree-photo { animation: cfdc-devoile 1100ms cubic-bezier(0.65, 0, 0.35, 1) 150ms both; }
+.zoom-lent { animation: cfdc-zoom-lent 18s linear infinite alternate; }
+.vol { animation: cfdc-vol 6s ease-in-out infinite; }
+
+/* Apparition au defilement (composant <Reveal>) */
+.reveal {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 700ms ease-out var(--delai, 0ms), transform 800ms cubic-bezier(0.16, 1, 0.3, 1) var(--delai, 0ms);
+}
+.reveal[data-visible] { opacity: 1; transform: none; }
+
+/* Cartes : leger soulevement au survol */
+.carte-vivante { transition: transform 300ms cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 300ms ease-out, border-color 200ms; }
+.carte-vivante:hover { transform: translateY(-4px); box-shadow: 0 12px 32px -12px oklch(0.42 0.12 250 / 0.25); border-color: var(--primary); }
+
+@media (prefers-reduced-motion: reduce) {
+  .entree-titre, .entree-texte, .entree-boutons, .entree-logo, .entree-photo, .zoom-lent, .vol { animation: none; }
+  .reveal { opacity: 1; transform: none; transition: none; }
+  .carte-vivante, .carte-vivante:hover { transition: none; transform: none; }
 }
