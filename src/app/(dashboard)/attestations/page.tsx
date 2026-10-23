@@ -37,7 +37,7 @@ export default async function ServicesPage({ searchParams }: { searchParams: Pro
         description="Attestations fiscales et CNSS, non faillite, quitus, domiciliation, inventaires, paie, formations"
       />
       <div className="grid gap-6 lg:grid-cols-3">
-        <div className="lg:col-span-2">
+        <div className="min-w-0 lg:col-span-2">
           <nav className="mb-3 flex gap-1" aria-label="Filtrer les demandes">
             {FILTRES.map((x) => (
               <Link

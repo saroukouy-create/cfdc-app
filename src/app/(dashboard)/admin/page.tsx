@@ -35,7 +35,7 @@ export default async function AdminPage() {
         ))}
       </PageHeader>
       <div className="grid gap-6 lg:grid-cols-3">
-        <div className="rounded-xl border lg:col-span-2">
+        <div className="min-w-0 rounded-xl border lg:col-span-2">
           <Table>
             <TableHeader>
               <TableRow>

@@ -15,7 +15,9 @@ export default function LoginPage() {
           <Link href="/" aria-label="CFDC, accueil" className="entree-logo w-fit">
             <Image src="/images/logo-cfdc.png" alt="Cabinet CFDC" width={336} height={210} priority className="h-16 w-auto" />
           </Link>
-          <CardTitle>Connexion</CardTitle>
+          <CardTitle>
+            <h1>Connexion</h1>
+          </CardTitle>
           <CardDescription>Espace collaborateurs et espace client</CardDescription>
         </CardHeader>
         <CardContent>

@@ -56,7 +56,7 @@ export default async function ComptabilitePage({ searchParams }: { searchParams:
         </button>
       </form>
 
-      <div className="grid gap-6">
+      <div className="grid gap-6 [&>*]:min-w-0">
         <Card>
           <CardHeader>
             <CardTitle>Cycle comptable</CardTitle>
