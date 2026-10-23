@@ -137,3 +137,34 @@ model DemandeService {
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
 }
+
+// Demandes envoyees depuis le site public (devis, inscription formation, message)
+enum TypeContact {
+  DEVIS
+  FORMATION
+  MESSAGE
+}
+
+enum StatutContact {
+  NOUVEAU
+  CONTACTE
+  CONVERTI
+  CLOS
+}
+
+model DemandeContact {
+  id         String        @id @default(cuid())
+  type       TypeContact
+  nom        String
+  entreprise String?
+  email      String
+  telephone  String?
+  sujet      String?
+  message    String?       @db.Text
+  statut     StatutContact @default(NOUVEAU)
+  note       String?       @db.Text
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
+
+  @@index([statut, createdAt])
+}

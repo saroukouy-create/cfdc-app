@@ -1,7 +1,7 @@
 import { withAuth } from "next-auth/middleware"
 import { NextResponse } from "next/server"
 
-const STAFF_PATHS = ["/dashboard", "/clients", "/creation-entreprise", "/comptabilite", "/services", "/admin"]
+const STAFF_PATHS = ["/dashboard", "/clients", "/creation-entreprise", "/comptabilite", "/attestations", "/prospects", "/admin"]
 
 export default withAuth(
   function middleware(req) {
@@ -23,7 +23,8 @@ export const config = {
     "/clients/:path*",
     "/creation-entreprise/:path*",
     "/comptabilite/:path*",
-    "/services/:path*",
+    "/attestations/:path*",
+    "/prospects/:path*",
     "/admin/:path*",
     "/espace/:path*",
   ],

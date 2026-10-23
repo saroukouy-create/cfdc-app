@@ -72,3 +72,16 @@ export const HORAIRES: { jour: string; ouverture?: string; fermeture?: string }[
   { jour: "Vendredi", ouverture: "08:00", fermeture: "19:00" },
   { jour: "Samedi", ouverture: "08:00", fermeture: "12:00" },
 ]
+
+export const TYPE_CONTACT: Record<string, string> = {
+  DEVIS: "Demande de devis",
+  FORMATION: "Inscription formation",
+  MESSAGE: "Message",
+}
+
+export const STATUT_CONTACT: Record<string, string> = {
+  NOUVEAU: "Nouveau",
+  CONTACTE: "Contacté",
+  CONVERTI: "Devenu client",
+  CLOS: "Clos",
+}

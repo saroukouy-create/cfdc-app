@@ -11,11 +11,12 @@ Prisma 6 + MySQL/MariaDB, NextAuth 4 (identifiants + JWT), Zod, React Hook Form,
 
 | Module | Écrans | Rôles |
 | --- | --- | --- |
-| Site vitrine | `/` (services, horaires avec statut ouvert/fermé) | public |
+| Site public | `/`, `/services`, `/services/[slug]` (4 services), `/formations`, `/a-propos`, `/contact` | public |
+| Demandes de devis | `/prospects` : devis, inscriptions formation et messages envoyés depuis le site | ADMIN, CONSEILLER |
 | Clients | `/clients`, `/clients/nouveau`, `/clients/[id]` | ADMIN, CONSEILLER |
 | Création d'entreprise | `/creation-entreprise` : stepper 5 étapes (informations, forme juridique, pièces, dépôt, suivi) + téléversement | ADMIN, CONSEILLER |
 | Comptabilité | `/comptabilite` : import CSV, cycle comptable, trésorerie, compte de résultat, bilan, balance | ADMIN, CONSEILLER |
-| Attestations & services | `/services` : attestations fiscale/CNSS, non faillite, quitus, domiciliation, inventaires… | ADMIN, CONSEILLER |
+| Attestations & services | `/attestations` : attestations fiscale/CNSS, non faillite, quitus, domiciliation, inventaires… | ADMIN, CONSEILLER |
 | Rapport PDF | `/api/rapports/pdf?clientId=…` | personnel ; le client pour lui-même |
 | Administration | `/admin` : comptes de l'équipe | ADMIN |
 | Espace client | `/espace` : tableaux de bord, dossiers (dépôt de pièces), demandes | CLIENT |

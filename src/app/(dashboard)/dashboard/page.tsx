@@ -10,7 +10,7 @@ import { formatDate } from "@/lib/format"
 export const metadata: Metadata = { title: "Tableau de bord" }
 
 export default async function DashboardPage() {
-  const [nbClients, dossiersEnCours, demandesOuvertes, dossiers, demandes] = await Promise.all([
+  const [nbClients, dossiersEnCours, demandesOuvertes, dossiers, demandes, prospects] = await Promise.all([
     prisma.client.count(),
     prisma.dossier.count({ where: { statut: { in: ["EN_COURS", "DEPOSE"] } } }),
     prisma.demandeService.count({ where: { statut: { in: ["NOUVELLE", "EN_COURS"] } } }),
@@ -26,18 +26,20 @@ export default async function DashboardPage() {
       orderBy: { createdAt: "asc" },
       take: 5,
     }),
+    prisma.demandeContact.count({ where: { statut: "NOUVEAU" } }),
   ])
 
   const kpis = [
     { label: "Clients", valeur: nbClients, href: "/clients" },
     { label: "Créations d'entreprise en cours", valeur: dossiersEnCours, href: "/creation-entreprise" },
-    { label: "Demandes à traiter", valeur: demandesOuvertes, href: "/services" },
+    { label: "Attestations à traiter", valeur: demandesOuvertes, href: "/attestations" },
+    { label: "Nouvelles demandes de devis", valeur: prospects, href: "/prospects" },
   ]
 
   return (
     <>
       <PageHeader titre="Tableau de bord" description="Vue d'ensemble de l'activité du cabinet" />
-      <div className="grid gap-4 sm:grid-cols-3">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {kpis.map((k) => (
           <Link key={k.label} href={k.href} className="rounded-xl border bg-card p-5 transition-colors hover:border-primary">
             <p className="text-sm text-muted-foreground">{k.label}</p>

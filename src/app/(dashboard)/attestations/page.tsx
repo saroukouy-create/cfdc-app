@@ -42,7 +42,7 @@ export default async function ServicesPage({ searchParams }: { searchParams: Pro
             {FILTRES.map((x) => (
               <Link
                 key={x.key}
-                href={`/services?filtre=${x.key}`}
+                href={`/attestations?filtre=${x.key}`}
                 aria-current={x.key === filtre.key ? "page" : undefined}
                 className={cn("rounded-lg px-3 py-1.5 text-sm", x.key === filtre.key ? "bg-primary text-primary-foreground" : "hover:bg-muted")}
               >

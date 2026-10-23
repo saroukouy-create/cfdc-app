@@ -181,3 +181,11 @@
   .reveal { opacity: 1; transform: none; transition: none; }
   .carte-vivante, .carte-vivante:hover { transition: none; transform: none; }
 }
+
+/* Transition d'entree a chaque changement de page du site public ((site)/template.tsx) */
+@keyframes cfdc-page {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: none; }
+}
+.entree-page { animation: cfdc-page 450ms cubic-bezier(0.22, 1, 0.36, 1) both; }
+@media (prefers-reduced-motion: reduce) { .entree-page { animation: none; } }

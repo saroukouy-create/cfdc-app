@@ -83,3 +83,23 @@ export function erreurZod(e: z.ZodError) {
   const i = e.issues[0]
   return i ? `${i.path.join(".") || "requête"} : ${i.message}` : "Données invalides"
 }
+
+// Formulaire public (devis, inscription formation, message). `site_web` est un piege a robots :
+// un humain ne voit pas ce champ, il doit rester vide.
+export const contactSchema = z.object({
+  type: z.enum(["DEVIS", "FORMATION", "MESSAGE"]),
+  nom: z.string().trim().min(2, "Nom requis").max(120),
+  entreprise: texte,
+  email: z.email("Email invalide").transform((v) => v.toLowerCase()),
+  telephone: texte,
+  sujet: texte,
+  message: z.string().trim().max(3000, "3000 caractères maximum").optional().transform((v) => v || undefined),
+  site_web: z.string().optional(),
+})
+
+export const contactUpdateSchema = z.object({
+  statut: z.enum(["NOUVEAU", "CONTACTE", "CONVERTI", "CLOS"]),
+  note: texte,
+})
+
+export type ContactInput = z.input<typeof contactSchema>
