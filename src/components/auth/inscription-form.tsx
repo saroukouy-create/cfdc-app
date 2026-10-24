@@ -12,6 +12,7 @@ import { a11y, FormField } from "@/components/form-field"
 import { cibleApresConnexion } from "@/components/auth/login-form"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { PasswordInput } from "@/components/ui/password-input"
 
 export function InscriptionForm() {
   const router = useRouter()
@@ -20,7 +21,7 @@ export function InscriptionForm() {
     register,
     handleSubmit,
     formState: { errors: e, isSubmitting },
-  } = useForm<InscriptionInput, unknown, z.output<typeof inscriptionSchema>>({ resolver: zodResolver(inscriptionSchema) })
+  } = useForm<InscriptionInput, unknown, z.output<typeof inscriptionSchema>>({ mode: "onTouched", resolver: zodResolver(inscriptionSchema) })
 
   async function onSubmit(data: z.output<typeof inscriptionSchema>) {
     if (!(await appelApi("/api/inscription", { method: "POST", body: data }))) return
@@ -56,10 +57,10 @@ export function InscriptionForm() {
         <Input autoComplete="organization" {...register("raisonSociale")} id="i-entreprise" />
       </FormField>
       <FormField id="i-password" label="Mot de passe *" erreur={e.password?.message}>
-        <Input type="password" autoComplete="new-password" {...register("password")} {...a11y("i-password", e.password?.message)} />
+        <PasswordInput autoComplete="new-password" {...register("password")} {...a11y("i-password", e.password?.message)} />
       </FormField>
       <FormField id="i-confirmation" label="Confirmer le mot de passe *" erreur={e.confirmation?.message}>
-        <Input type="password" autoComplete="new-password" {...register("confirmation")} {...a11y("i-confirmation", e.confirmation?.message)} />
+        <PasswordInput autoComplete="new-password" {...register("confirmation")} {...a11y("i-confirmation", e.confirmation?.message)} />
       </FormField>
       <div className="sm:col-span-2">
         <Button type="submit" size="lg" className="w-full" disabled={isSubmitting}>

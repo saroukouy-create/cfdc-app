@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation"
 import { signIn } from "next-auth/react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { PasswordInput } from "@/components/ui/password-input"
 import { Label } from "@/components/ui/label"
 
 /** Destination apres connexion : callbackUrl interne au portail, sinon l'accueil du portail. */
@@ -52,7 +53,7 @@ export function LoginForm({ portail }: { portail: "client" | "gestion" }) {
       </div>
       <div className="space-y-1.5">
         <Label htmlFor="password">Mot de passe</Label>
-        <Input id="password" name="password" type="password" autoComplete="current-password" required />
+        <PasswordInput id="password" name="password" autoComplete="current-password" required />
       </div>
       {erreur && (
         <p role="alert" className="text-sm text-destructive">

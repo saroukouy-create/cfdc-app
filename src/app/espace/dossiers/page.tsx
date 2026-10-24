@@ -1,4 +1,5 @@
 import type { Metadata } from "next"
+import { buttonVariants } from "@/components/ui/button"
 import Link from "next/link"
 import { prisma } from "@/lib/prisma"
 import { clientCourant } from "@/lib/client-courant"
@@ -16,7 +17,13 @@ export default async function MesDossiersPage() {
     <>
       <PageHeader titre="Mes dossiers de création" description="Suivez chaque étape et déposez vos pièces justificatives" />
       {dossiers.length === 0 ? (
-        <p className="text-muted-foreground">Aucun dossier pour l&apos;instant. Votre conseiller CFDC l&apos;ouvrira avec vous.</p>
+        <div className="rounded-xl border border-dashed p-8 text-center">
+          <p className="font-medium">Aucun dossier pour l&apos;instant</p>
+          <p className="mt-1 text-sm text-muted-foreground">Vous créez votre entreprise ? Demandez un devis : votre conseiller ouvrira le dossier avec vous.</p>
+          <Link href="/espace/demandes?type=DEVIS&sujet=Cr%C3%A9ation%20d%27entreprise#devis" className={buttonVariants({ className: "mt-4" })}>
+            Demander un devis de création
+          </Link>
+        </div>
       ) : (
         <ul className="grid gap-3">
           {dossiers.map((d) => {

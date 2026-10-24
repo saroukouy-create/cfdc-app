@@ -1,11 +1,18 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Geist_Mono } from "next/font/google";
+import { EB_Garamond, Inter, Geist_Mono } from "next/font/google";
 import { Toaster } from "sonner";
 import "./globals.css";
 
 const inter = Inter({
   variable: "--font-sans",
   subsets: ["latin"],
+});
+
+// Titres du site public (classe .titres-serif) : serif d'autorite recommande par UI UX Pro Max pour un cabinet
+const ebGaramond = EB_Garamond({
+  variable: "--font-titre",
+  subsets: ["latin"],
+  weight: ["500", "600", "700"],
 });
 
 const geistMono = Geist_Mono({
@@ -36,8 +43,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="fr" className={`${inter.variable} ${geistMono.variable}`}>
+    <html lang="fr" className={`${inter.variable} ${ebGaramond.variable} ${geistMono.variable}`}>
       <body className="antialiased">
+        {/* Clavier : premier element tabulable, saute la navigation */}
+        <a href="#contenu" className="lien-evitement">
+          Aller au contenu
+        </a>
         {children}
         <Toaster richColors position="top-right" />
       </body>

@@ -10,6 +10,7 @@ import { appelApi } from "@/lib/api-client"
 import { a11y, FormField } from "@/components/form-field"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { PasswordInput } from "@/components/ui/password-input"
 import { NativeSelect } from "@/components/ui/native-select"
 
 export function UserForm() {
@@ -19,7 +20,7 @@ export function UserForm() {
     handleSubmit,
     reset,
     formState: { errors: e, isSubmitting },
-  } = useForm<UserInput, unknown, z.output<typeof userSchema>>({ resolver: zodResolver(userSchema), defaultValues: { role: "CONSEILLER" } })
+  } = useForm<UserInput, unknown, z.output<typeof userSchema>>({ mode: "onTouched", resolver: zodResolver(userSchema), defaultValues: { role: "CONSEILLER" } })
 
   async function onSubmit(data: z.output<typeof userSchema>) {
     if (!(await appelApi("/api/users", { method: "POST", body: data }))) return
@@ -42,7 +43,7 @@ export function UserForm() {
         <Input type="email" autoComplete="off" {...register("email")} {...a11y("u-email", e.email?.message)} />
       </FormField>
       <FormField id="u-password" label="Mot de passe initial" erreur={e.password?.message}>
-        <Input type="password" autoComplete="new-password" {...register("password")} {...a11y("u-password", e.password?.message)} />
+        <PasswordInput autoComplete="new-password" {...register("password")} {...a11y("u-password", e.password?.message)} />
       </FormField>
       <FormField id="u-role" label="Rôle">
         <NativeSelect {...register("role")} id="u-role">

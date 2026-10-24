@@ -74,7 +74,12 @@ export default async function ClientPage({ params }: { params: Promise<{ id: str
           </CardHeader>
           <CardContent className="space-y-2 text-sm">
             {nbEcritures === 0 ? (
-              <p className="text-muted-foreground">Aucune écriture importée.</p>
+              <p className="text-muted-foreground">
+                Aucune écriture importée.{" "}
+                <Link href={`/gestion/comptabilite?clientId=${id}`} className="font-medium text-primary hover:underline">
+                  Importer un fichier CSV
+                </Link>
+              </p>
             ) : (
               <>
                 <p className="flex justify-between"><span>Produits</span><span className="tabular-nums">{formatFCFA(resultat.produits)}</span></p>

@@ -69,7 +69,7 @@ export function AppShell({
         </div>
       </aside>
       <div className="min-w-0">
-        <main className="mx-auto max-w-6xl p-4 md:p-6 lg:p-8">{children}</main>
+        <main id="contenu" tabIndex={-1} className="mx-auto max-w-6xl p-4 outline-none md:p-6 lg:p-8">{children}</main>
       </div>
     </div>
   )

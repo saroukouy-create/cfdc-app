@@ -37,7 +37,8 @@ export function GraphiqueResultat({ data }: { data: Point[] }) {
       <BarChart data={data} margin={{ top: 8, right: 8, left: 0, bottom: 0 }}>
         {axes}
         <Tooltip formatter={(v) => complet(Number(v))} labelFormatter={(m) => libelleMois(String(m))} />
-        <Legend iconType="circle" wrapperStyle={{ fontSize: 12 }} />
+        {/* Libelles en couleur de texte : la couleur de la serie seule ne passe pas le contraste 4.5:1 */}
+        <Legend iconType="circle" wrapperStyle={{ fontSize: 12 }} formatter={(v) => <span className="text-foreground">{v}</span>} />
         <Bar dataKey="produits" name="Produits" fill="var(--chart-1)" radius={[4, 4, 0, 0]} />
         <Bar dataKey="charges" name="Charges" fill="var(--chart-2)" radius={[4, 4, 0, 0]} />
       </BarChart>

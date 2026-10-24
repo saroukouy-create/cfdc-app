@@ -34,7 +34,7 @@ export function ContactForm({
     handleSubmit,
     formState: { errors: e, isSubmitting },
   } = useForm<ContactInput, unknown, z.output<typeof contactSchema>>({
-    resolver: zodResolver(contactSchema),
+    mode: "onTouched", resolver: zodResolver(contactSchema),
     defaultValues: { type, sujet: sujets.includes(sujet ?? "") ? sujet : "" },
   })
 

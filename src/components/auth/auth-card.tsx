@@ -19,7 +19,7 @@ export function AuthCard({
   children: React.ReactNode
 }) {
   return (
-    <main className="flex min-h-dvh items-center justify-center bg-muted/40 p-4">
+    <main id="contenu" tabIndex={-1} className="titres-serif flex min-h-dvh items-center justify-center bg-muted/40 p-4 outline-none">
       <div className={`w-full ${large ? "max-w-xl" : "max-w-sm"}`}>
         <Card>
           <CardHeader>

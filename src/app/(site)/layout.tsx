@@ -6,9 +6,9 @@ import { HORAIRES } from "@/lib/constants"
 
 export default function SiteLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex min-h-dvh flex-col overflow-x-clip bg-background">
+    <div className="titres-serif flex min-h-dvh flex-col overflow-x-clip bg-background">
       <SiteHeader />
-      <main className="flex-1">{children}</main>
+      <main id="contenu" tabIndex={-1} className="flex-1 outline-none">{children}</main>
 
       <footer className="border-t bg-foreground text-background">
         <div className="mx-auto grid max-w-6xl gap-10 px-4 py-12 md:grid-cols-4">

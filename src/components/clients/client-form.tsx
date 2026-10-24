@@ -12,6 +12,7 @@ import { a11y, FormField } from "@/components/form-field"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
+import { PasswordInput } from "@/components/ui/password-input"
 import { NativeSelect } from "@/components/ui/native-select"
 
 export function ClientForm() {
@@ -20,7 +21,7 @@ export function ClientForm() {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<ClientInput, unknown, z.output<typeof clientSchema>>({ resolver: zodResolver(clientSchema) })
+  } = useForm<ClientInput, unknown, z.output<typeof clientSchema>>({ mode: "onTouched", resolver: zodResolver(clientSchema) })
 
   async function onSubmit(data: z.output<typeof clientSchema>) {
     const client = await appelApi<{ id: string }>("/api/clients", { method: "POST", body: data })
@@ -84,7 +85,7 @@ export function ClientForm() {
             <Input type="email" autoComplete="off" {...register("email")} {...a11y("email", e.email?.message)} />
           </FormField>
           <FormField id="password" label="Mot de passe initial *" erreur={e.password?.message} className="sm:col-span-2">
-            <Input type="password" autoComplete="new-password" {...register("password")} {...a11y("password", e.password?.message)} />
+            <PasswordInput autoComplete="new-password" {...register("password")} {...a11y("password", e.password?.message)} />
           </FormField>
           <p className="text-xs text-muted-foreground sm:col-span-2">
             Communiquez ces identifiants au client : il pourra suivre ses dossiers et demander ses attestations.

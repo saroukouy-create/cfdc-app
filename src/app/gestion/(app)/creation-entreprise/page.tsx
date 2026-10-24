@@ -39,7 +39,10 @@ export default async function CreationEntreprisePage() {
             {dossiers.length === 0 && (
               <TableRow>
                 <TableCell colSpan={6} className="py-8 text-center text-muted-foreground">
-                  Aucun dossier de création.
+                  Aucun dossier de création.{" "}
+                  <Link href="/gestion/creation-entreprise/nouveau" className="font-medium text-primary hover:underline">
+                    Ouvrir un dossier
+                  </Link>
                 </TableCell>
               </TableRow>
             )}

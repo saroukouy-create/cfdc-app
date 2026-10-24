@@ -21,7 +21,7 @@ export function DossierForm({ clients, clientId }: { clients: { id: string; rais
     handleSubmit,
     formState: { errors: e, isSubmitting },
   } = useForm<DossierInput, unknown, z.output<typeof dossierSchema>>({
-    resolver: zodResolver(dossierSchema),
+    mode: "onTouched", resolver: zodResolver(dossierSchema),
     defaultValues: { clientId: clients.some((c) => c.id === clientId) ? clientId : "" },
   })
 

@@ -222,3 +222,47 @@ html {
   /* Texte des champs a 16 px : sous 16 px, Safari iOS zoome a chaque saisie */
   input, select, textarea { font-size: 16px !important; }
 }
+
+/* ---------- Accessibilite (audit UI UX Pro Max) ---------- */
+
+/* Focus clavier visible sur tout fond : anneau interieur blanc + anneau exterieur bleu
+   (hors @layer : l'emporte sur les "outline-none" des composants) */
+:where(a, button, input, select, textarea, summary, [tabindex]:not([tabindex="-1"]), [role="button"]):focus-visible {
+  outline: 3px solid var(--primary);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 2px var(--background);
+}
+
+/* Tailwind 4 ne met plus le curseur "main" sur les boutons */
+button:not(:disabled),
+[role="button"]:not([aria-disabled="true"]),
+select,
+summary,
+label[for],
+input[type="checkbox"],
+input[type="radio"],
+input[type="file"] {
+  cursor: pointer;
+}
+
+/* Lien d'evitement : invisible jusqu'a la tabulation */
+.lien-evitement {
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 100;
+  transform: translateY(-200%);
+  border-radius: 0.5rem;
+  background: var(--primary);
+  color: var(--primary-foreground);
+  padding: 0.75rem 1rem;
+  font-weight: 600;
+  transition: transform 150ms ease-out;
+}
+.lien-evitement:focus-visible { transform: none; }
+
+/* Titres a empattements (autorite, confiance) sur le site public et les pages de connexion */
+.titres-serif :where(h1, h2, h3) {
+  font-family: var(--font-titre), Georgia, serif;
+  letter-spacing: -0.01em;
+}

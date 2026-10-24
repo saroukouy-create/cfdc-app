@@ -76,7 +76,10 @@ export default function AProposPage() {
         <ol className="mt-10 grid gap-4 md:grid-cols-5">
           {CYCLE.map((etape, i) => (
             <Reveal key={etape} as="li" delai={i * 90} className="relative rounded-2xl border-t-4 border-primary bg-card p-5 shadow-sm">
-              <span className="text-3xl font-bold text-primary/20 tabular-nums">{String(i + 1).padStart(2, "0")}</span>
+              {/* Numero decoratif (l'ordre est porte par la liste <ol>) ; contraste >= 3:1 pour le gros texte */}
+              <span aria-hidden className="text-3xl font-bold text-primary/70 tabular-nums">
+                {String(i + 1).padStart(2, "0")}
+              </span>
               <p className="mt-2 font-medium">{etape}</p>
             </Reveal>
           ))}

@@ -49,7 +49,16 @@ export default async function ClientsPage({ searchParams }: { searchParams: Prom
             {clients.length === 0 && (
               <TableRow>
                 <TableCell colSpan={5} className="py-8 text-center text-muted-foreground">
-                  {q ? "Aucun client ne correspond à la recherche." : "Aucun client pour l'instant."}
+                  {q ? (
+                    "Aucun client ne correspond à la recherche."
+                  ) : (
+                    <>
+                      Aucun client pour l&apos;instant.{" "}
+                      <Link href="/gestion/clients/nouveau" className="font-medium text-primary hover:underline">
+                        Créer le premier client
+                      </Link>
+                    </>
+                  )}
                 </TableCell>
               </TableRow>
             )}

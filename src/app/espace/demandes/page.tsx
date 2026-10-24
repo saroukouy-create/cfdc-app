@@ -33,7 +33,14 @@ export default async function MesDemandesPage({ searchParams }: { searchParams: 
       <PageHeader titre="Mes demandes" description="Devis, formations, attestations et documents administratifs" />
       <div className="grid gap-6 lg:grid-cols-[1fr_22rem]">
         <div className="grid h-fit min-w-0 gap-3">
-          {lignes.length === 0 && <p className="text-muted-foreground">Aucune demande pour l&apos;instant.</p>}
+          {lignes.length === 0 && (
+            <div className="rounded-xl border border-dashed p-8 text-center">
+              <p className="font-medium">Aucune demande pour l&apos;instant</p>
+              <p className="mt-1 text-sm text-muted-foreground">
+                Utilisez les formulaires ci-contre pour demander un devis, une formation ou une attestation.
+              </p>
+            </div>
+          )}
           {lignes.map((d) => (
             <article key={d.id} className="rounded-xl border p-4">
               <div className="flex items-start justify-between gap-3">
