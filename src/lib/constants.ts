@@ -85,3 +85,12 @@ export const STATUT_CONTACT: Record<string, string> = {
   CONVERTI: "Devenu client",
   CLOS: "Clos",
 }
+
+// Coordonnees du cabinet (communiquees par le cabinet le 2026-10-27)
+export const CONTACT = {
+  email: "cabinetcfdc@gmail.com",
+  telephones: [
+    { affichage: "+229 01 61 61 63 42", lien: "+2290161616342" },
+    { affichage: "+229 01 94 60 02 26", lien: "+2290194600226" },
+  ],
+} as const

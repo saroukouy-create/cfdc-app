@@ -5,6 +5,8 @@ import { PageBanner } from "@/components/site/page-banner"
 import { ContactForm } from "@/components/site/contact-form"
 import { DemandeCTA } from "@/components/site/demande-cta"
 import { SERVICES } from "@/lib/site-content"
+import { CONTACT } from "@/lib/constants"
+import { Mail, Phone } from "lucide-react"
 
 export const metadata: Metadata = {
   title: "Contact",
@@ -33,6 +35,21 @@ export default async function ContactPage({ searchParams }: { searchParams: Prom
           />
         </Reveal>
         <Reveal delai={120} className="h-fit rounded-3xl bg-muted/50 p-6 md:p-8">
+          <h2 className="mb-4 text-lg font-semibold">Nous joindre</h2>
+          <ul className="mb-8 space-y-3">
+            <li>
+              <a href={`mailto:${CONTACT.email}`} className="flex items-center gap-3 font-medium hover:text-primary">
+                <Mail className="size-5 shrink-0 text-marque" aria-hidden /> {CONTACT.email}
+              </a>
+            </li>
+            {CONTACT.telephones.map((t) => (
+              <li key={t.lien}>
+                <a href={`tel:${t.lien}`} className="flex items-center gap-3 font-medium tabular-nums hover:text-primary">
+                  <Phone className="size-5 shrink-0 text-marque" aria-hidden /> {t.affichage}
+                </a>
+              </li>
+            ))}
+          </ul>
           <h2 className="mb-4 text-lg font-semibold">Nos horaires d&apos;ouverture</h2>
           <Horaires />
         </Reveal>

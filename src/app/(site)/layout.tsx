@@ -2,7 +2,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { SiteHeader } from "@/components/site/site-header"
 import { NAV_SITE, SERVICES } from "@/lib/site-content"
-import { HORAIRES } from "@/lib/constants"
+import { CONTACT, HORAIRES } from "@/lib/constants"
 
 export default function SiteLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -51,6 +51,21 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
               <li>Lundi – vendredi : {HORAIRES[1].ouverture?.replace(":", "H")} — {HORAIRES[1].fermeture?.replace(":", "H")}</li>
               <li>Samedi : {HORAIRES[6].ouverture?.replace(":", "H")} — {HORAIRES[6].fermeture?.replace(":", "H")}</li>
               <li>Dimanche : fermé</li>
+            </ul>
+            <h2 className="mt-6 mb-3 text-sm font-semibold">Nous joindre</h2>
+            <ul className="space-y-1 text-sm text-background/70">
+              <li>
+                <a href={`mailto:${CONTACT.email}`} className="hover:text-background hover:underline">
+                  {CONTACT.email}
+                </a>
+              </li>
+              {CONTACT.telephones.map((t) => (
+                <li key={t.lien}>
+                  <a href={`tel:${t.lien}`} className="hover:text-background hover:underline">
+                    {t.affichage}
+                  </a>
+                </li>
+              ))}
             </ul>
             <Link href="/contact" className="mt-4 inline-block text-sm font-medium text-background underline-offset-4 hover:underline">
               Demander un devis gratuit →
