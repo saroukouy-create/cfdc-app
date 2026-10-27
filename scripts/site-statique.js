@@ -80,7 +80,8 @@
       msg.innerHTML = "L'envoi en ligne n'est pas disponible sur cette version du site. Écrivez-nous à " +
         '<a href="mailto:cabinetcfdc@gmail.com" style="font-weight:600;text-decoration:underline">cabinetcfdc@gmail.com</a>' +
         ' ou appelez le <a href="tel:+2290161616342" style="font-weight:600;text-decoration:underline">+229 01 61 61 63 42</a>' +
-        ' / <a href="tel:+2290194600226" style="font-weight:600;text-decoration:underline">+229 01 94 60 02 26</a>.';
+        ' / <a href="tel:+2290194600226" style="font-weight:600;text-decoration:underline">+229 01 94 60 02 26</a>' +
+        ', ou sur <a href="https://wa.me/2290197443231" target="_blank" rel="noopener noreferrer" style="font-weight:600;text-decoration:underline">WhatsApp (+229 01 97 44 32 31)</a>.';
       form.appendChild(msg);
     });
   });

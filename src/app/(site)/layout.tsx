@@ -3,6 +3,7 @@ import Link from "next/link"
 import { SiteHeader } from "@/components/site/site-header"
 import { NAV_SITE, SERVICES } from "@/lib/site-content"
 import { CONTACT, HORAIRES } from "@/lib/constants"
+import { MessageCircle } from "lucide-react"
 
 export default function SiteLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -66,6 +67,11 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
                   </a>
                 </li>
               ))}
+              <li>
+                <a href={CONTACT.whatsapp.lien} target="_blank" rel="noopener noreferrer" className="hover:text-background hover:underline">
+                  WhatsApp : {CONTACT.whatsapp.affichage}
+                </a>
+              </li>
             </ul>
             <Link href="/contact" className="mt-4 inline-block text-sm font-medium text-background underline-offset-4 hover:underline">
               Demander un devis gratuit →
@@ -79,6 +85,16 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
           </Link>
         </p>
       </footer>
+
+      <a
+        href={CONTACT.whatsapp.lien}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Discuter avec CFDC sur WhatsApp"
+        className="fixed right-4 bottom-[max(1rem,env(safe-area-inset-bottom))] z-50 flex size-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg transition-transform hover:scale-105 focus-visible:scale-105"
+      >
+        <MessageCircle className="size-7" aria-hidden />
+      </a>
     </div>
   )
 }

@@ -93,4 +93,8 @@ export const CONTACT = {
     { affichage: "+229 01 61 61 63 42", lien: "+2290161616342" },
     { affichage: "+229 01 94 60 02 26", lien: "+2290194600226" },
   ],
+  whatsapp: {
+    affichage: "+229 01 97 44 32 31",
+    lien: "https://wa.me/2290197443231?text=" + encodeURIComponent("Bonjour CFDC, je souhaite des informations sur vos services."),
+  },
 } as const

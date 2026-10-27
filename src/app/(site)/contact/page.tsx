@@ -6,7 +6,7 @@ import { ContactForm } from "@/components/site/contact-form"
 import { DemandeCTA } from "@/components/site/demande-cta"
 import { SERVICES } from "@/lib/site-content"
 import { CONTACT } from "@/lib/constants"
-import { Mail, Phone } from "lucide-react"
+import { Mail, MessageCircle, Phone } from "lucide-react"
 
 export const metadata: Metadata = {
   title: "Contact",
@@ -49,6 +49,11 @@ export default async function ContactPage({ searchParams }: { searchParams: Prom
                 </a>
               </li>
             ))}
+            <li>
+              <a href={CONTACT.whatsapp.lien} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 font-medium tabular-nums hover:text-primary">
+                <MessageCircle className="size-5 shrink-0 text-[#25D366]" aria-hidden /> WhatsApp : {CONTACT.whatsapp.affichage}
+              </a>
+            </li>
           </ul>
           <h2 className="mb-4 text-lg font-semibold">Nos horaires d&apos;ouverture</h2>
           <Horaires />
