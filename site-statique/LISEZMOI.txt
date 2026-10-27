@@ -1,4 +1,5 @@
 Copie statique du site public CFDC (genere par scripts/export-statique.mjs).
-A publier a la RACINE d'un domaine ou sous-domaine (les liens commencent par /).
-Test local : npx serve site-statique  puis ouvrir l'adresse affichee.
-Ne fonctionnent pas sans le serveur Next.js : espace client, gestion, inscription, formulaires.
+Ouvrir index.html (double-clic) ou publier tout le dossier sur un hebergement web.
+  pages : *.html   style : css/   script : js/site.js   images : images/   polices : fonts/
+Ne fonctionnent pas sans le serveur de l'application : espace client, gestion, inscription,
+envoi des formulaires (les liens correspondants menent a contact.html).
