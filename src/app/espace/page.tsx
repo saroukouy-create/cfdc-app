@@ -3,19 +3,22 @@ import Link from "next/link"
 import { FileDown } from "lucide-react"
 import { prisma } from "@/lib/prisma"
 import { clientCourant } from "@/lib/client-courant"
-import { syntheseClient } from "@/lib/donnees"
+import { lignesClient, syntheseClient } from "@/lib/donnees"
+import { etatsFinanciers, exercices } from "@/lib/etats-financiers"
 import { PageHeader } from "@/components/layout/app-shell"
 import { buttonVariants } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Bilan, CompteResultat, CycleComptable } from "@/components/compta/etats"
+import { CompteResultat, CycleComptable } from "@/components/compta/etats"
+import { EtatsSyscohada } from "@/components/compta/etats-syscohada"
 import { GraphiqueResultat, GraphiqueTresorerie } from "@/components/compta/graphiques"
 
 export const metadata: Metadata = { title: "Mon espace" }
 
 export default async function EspacePage() {
   const client = await clientCourant()
-  const [synthese, dossiersActifs, demandesOuvertes] = await Promise.all([
+  const [synthese, lignes, dossiersActifs, demandesOuvertes] = await Promise.all([
     syntheseClient(client.id),
+    lignesClient(client.id),
     prisma.dossier.count({ where: { clientId: client.id, statut: { in: ["EN_COURS", "DEPOSE"] } } }),
     prisma.demandeService.count({ where: { clientId: client.id, statut: { in: ["NOUVELLE", "EN_COURS", "PRETE"] } } }),
   ])
@@ -73,24 +76,15 @@ export default async function EspacePage() {
               </CardContent>
             </Card>
           </div>
-          <div className="grid gap-6 lg:grid-cols-3">
-            <Card>
-              <CardHeader>
-                <CardTitle>Compte de résultat</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <CompteResultat resultat={synthese.resultat} />
-              </CardContent>
-            </Card>
-            <Card className="lg:col-span-2">
-              <CardHeader>
-                <CardTitle>Bilan simplifié</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <Bilan bilan={synthese.bilan} />
-              </CardContent>
-            </Card>
-          </div>
+          <Card>
+            <CardHeader>
+              <CardTitle>Synthèse du résultat</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <CompteResultat resultat={synthese.resultat} />
+            </CardContent>
+          </Card>
+          <EtatsSyscohada etats={etatsFinanciers(lignes, exercices(lignes)[0])} entite={client.raisonSociale} ifu={client.ifu} />
         </div>
       )}
     </>

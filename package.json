@@ -11,7 +11,7 @@
     "db:migrate": "npm run prisma -- migrate deploy",
     "db:seed": "node --env-file=.env.local node_modules/tsx/dist/cli.mjs prisma/seed.ts",
     "db:studio": "npm run prisma -- studio",
-    "test": "node node_modules/tsx/dist/cli.mjs --test src/lib/compta.test.ts",
+    "test": "node node_modules/tsx/dist/cli.mjs --test src/lib/compta.test.ts src/lib/etats-financiers.test.ts",
     "export:statique": "node scripts/export-statique.mjs"
   },
   "dependencies": {

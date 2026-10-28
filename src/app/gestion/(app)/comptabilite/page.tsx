@@ -2,7 +2,8 @@ import type { Metadata } from "next"
 import { FileDown } from "lucide-react"
 import { prisma } from "@/lib/prisma"
 import { lignesClient } from "@/lib/donnees"
-import { balance, bilan, compteResultat, cycle, seriesMensuelles } from "@/lib/compta"
+import { balance, compteResultat, cycle, seriesMensuelles } from "@/lib/compta"
+import { etatsFinanciers, exercices } from "@/lib/etats-financiers"
 import { formatFCFA } from "@/lib/format"
 import { PageHeader } from "@/components/layout/app-shell"
 import { buttonVariants } from "@/components/ui/button"
@@ -11,13 +12,14 @@ import { NativeSelect } from "@/components/ui/native-select"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { GraphiqueResultat, GraphiqueTresorerie } from "@/components/compta/graphiques"
 import { ImportCsv } from "@/components/compta/import-csv"
-import { Bilan, CompteResultat, CycleComptable } from "@/components/compta/etats"
+import { CompteResultat, CycleComptable } from "@/components/compta/etats"
+import { EtatsSyscohada } from "@/components/compta/etats-syscohada"
 
 export const metadata: Metadata = { title: "Comptabilité" }
 
-export default async function ComptabilitePage({ searchParams }: { searchParams: Promise<{ clientId?: string }> }) {
-  const clients = await prisma.client.findMany({ select: { id: true, raisonSociale: true }, orderBy: { raisonSociale: "asc" } })
-  const { clientId: demande } = await searchParams
+export default async function ComptabilitePage({ searchParams }: { searchParams: Promise<{ clientId?: string; exercice?: string }> }) {
+  const clients = await prisma.client.findMany({ select: { id: true, raisonSociale: true, ifu: true }, orderBy: { raisonSociale: "asc" } })
+  const { clientId: demande, exercice: exerciceDemande } = await searchParams
   const client = clients.find((c) => c.id === demande) ?? clients[0]
 
   if (!client)
@@ -31,6 +33,8 @@ export default async function ComptabilitePage({ searchParams }: { searchParams:
   const lignes = await lignesClient(client.id)
   const series = seriesMensuelles(lignes)
   const bal = balance(lignes)
+  const annees = exercices(lignes)
+  const exercice = annees.find((a) => String(a) === exerciceDemande) ?? annees[0]
 
   return (
     <>
@@ -40,7 +44,7 @@ export default async function ComptabilitePage({ searchParams }: { searchParams:
         </a>
       </PageHeader>
 
-      <form className="mb-6 flex max-w-md items-end gap-2">
+      <form className="mb-6 flex max-w-xl items-end gap-2">
         <label className="grid flex-1 gap-1.5 text-sm font-medium">
           Client
           <NativeSelect name="clientId" defaultValue={client.id}>
@@ -51,6 +55,18 @@ export default async function ComptabilitePage({ searchParams }: { searchParams:
             ))}
           </NativeSelect>
         </label>
+        {annees.length > 0 && (
+          <label className="grid gap-1.5 text-sm font-medium">
+            Exercice
+            <NativeSelect name="exercice" defaultValue={String(exercice)}>
+              {annees.map((a) => (
+                <option key={a} value={a}>
+                  {a}
+                </option>
+              ))}
+            </NativeSelect>
+          </label>
+        )}
         <button type="submit" className={buttonVariants({ variant: "outline" })}>
           Afficher
         </button>
@@ -106,14 +122,7 @@ export default async function ComptabilitePage({ searchParams }: { searchParams:
               </Card>
             </div>
 
-            <Card>
-              <CardHeader>
-                <CardTitle>Bilan simplifié</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <Bilan bilan={bilan(lignes)} />
-              </CardContent>
-            </Card>
+            <EtatsSyscohada etats={etatsFinanciers(lignes, exercice)} entite={client.raisonSociale} ifu={client.ifu} />
 
             <Card>
               <CardHeader>
