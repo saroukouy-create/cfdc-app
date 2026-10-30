@@ -2,6 +2,8 @@ import type { Metadata } from "next"
 import Link from "next/link"
 import { prisma } from "@/lib/prisma"
 import { PageHeader } from "@/components/layout/app-shell"
+import { Building2, FileCheck2, Inbox, Users } from "lucide-react"
+import { StatCarte } from "@/components/portail/stat-carte"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { ETAPES, STATUT_DEMANDE, TYPE_SERVICE } from "@/lib/constants"
@@ -30,25 +32,22 @@ export default async function DashboardPage() {
   ])
 
   const kpis = [
-    { label: "Clients", valeur: nbClients, href: "/gestion/clients" },
-    { label: "Créations d'entreprise en cours", valeur: dossiersEnCours, href: "/gestion/creation-entreprise" },
-    { label: "Attestations à traiter", valeur: demandesOuvertes, href: "/gestion/attestations" },
-    { label: "Nouvelles demandes de devis", valeur: prospects, href: "/gestion/prospects" },
+    { label: "Clients", valeur: nbClients, href: "/gestion/clients", icone: <Users className="size-5" aria-hidden /> },
+    { label: "Créations d'entreprise en cours", valeur: dossiersEnCours, href: "/gestion/creation-entreprise", icone: <Building2 className="size-5" aria-hidden /> },
+    { label: "Attestations à traiter", valeur: demandesOuvertes, href: "/gestion/attestations", icone: <FileCheck2 className="size-5" aria-hidden /> },
+    { label: "Nouvelles demandes de devis", valeur: prospects, href: "/gestion/prospects", icone: <Inbox className="size-5" aria-hidden /> },
   ]
 
   return (
     <>
       <PageHeader titre="Tableau de bord" description="Vue d'ensemble de l'activité du cabinet" />
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="portail-cascade grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {kpis.map((k) => (
-          <Link key={k.label} href={k.href} className="rounded-xl border bg-card p-5 transition-colors hover:border-primary">
-            <p className="text-sm text-muted-foreground">{k.label}</p>
-            <p className="mt-1 text-3xl font-semibold tabular-nums">{k.valeur}</p>
-          </Link>
+          <StatCarte key={k.label} label={k.label} valeur={k.valeur} href={k.href} icone={k.icone} />
         ))}
       </div>
 
-      <div className="mt-6 grid gap-6 lg:grid-cols-2">
+      <div className="portail-cascade mt-6 grid gap-6 lg:grid-cols-2">
         <Card>
           <CardHeader>
             <CardTitle>Créations d&apos;entreprise actives</CardTitle>

@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation"
 import { getSession, STAFF } from "@/lib/auth"
+import { FONTS_PORTAIL } from "@/lib/fonts-portail"
 import { StaffShell } from "./staff-shell"
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
@@ -8,8 +9,10 @@ export default async function DashboardLayout({ children }: { children: React.Re
   if (!session) redirect("/gestion/connexion")
   if (!STAFF.includes(session.user.role)) redirect("/espace")
   return (
-    <StaffShell admin={session.user.role === "ADMIN"} utilisateur={session.user.name ?? session.user.email ?? ""}>
-      {children}
-    </StaffShell>
+    <div className={`portail ${FONTS_PORTAIL}`}>
+      <StaffShell admin={session.user.role === "ADMIN"} utilisateur={session.user.name ?? session.user.email ?? ""}>
+        {children}
+      </StaffShell>
+    </div>
   )
 }

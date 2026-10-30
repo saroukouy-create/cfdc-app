@@ -1,10 +1,11 @@
 import type { Metadata } from "next"
-import Link from "next/link"
 import { FileDown } from "lucide-react"
 import { prisma } from "@/lib/prisma"
 import { clientCourant } from "@/lib/client-courant"
 import { lignesClient, syntheseClient } from "@/lib/donnees"
 import { etatsFinanciers, exercices } from "@/lib/etats-financiers"
+import { Building2, FileCheck2 } from "lucide-react"
+import { StatCarte } from "@/components/portail/stat-carte"
 import { PageHeader } from "@/components/layout/app-shell"
 import { buttonVariants } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -33,15 +34,9 @@ export default async function EspacePage() {
         )}
       </PageHeader>
 
-      <div className="grid gap-4 sm:grid-cols-2">
-        <Link href="/espace/dossiers" className="rounded-xl border bg-card p-5 transition-colors hover:border-primary">
-          <p className="text-sm text-muted-foreground">Créations d&apos;entreprise en cours</p>
-          <p className="mt-1 text-3xl font-semibold tabular-nums">{dossiersActifs}</p>
-        </Link>
-        <Link href="/espace/demandes" className="rounded-xl border bg-card p-5 transition-colors hover:border-primary">
-          <p className="text-sm text-muted-foreground">Demandes en cours</p>
-          <p className="mt-1 text-3xl font-semibold tabular-nums">{demandesOuvertes}</p>
-        </Link>
+      <div className="portail-cascade grid gap-4 sm:grid-cols-2">
+        <StatCarte label="Créations d'entreprise en cours" valeur={dossiersActifs} href="/espace/dossiers" icone={<Building2 className="size-5" aria-hidden />} />
+        <StatCarte label="Demandes en cours" valeur={demandesOuvertes} href="/espace/demandes" icone={<FileCheck2 className="size-5" aria-hidden />} />
       </div>
 
       {synthese.nbEcritures === 0 ? (

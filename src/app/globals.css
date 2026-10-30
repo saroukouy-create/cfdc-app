@@ -266,3 +266,110 @@ input[type="file"] {
   font-family: var(--font-titre), Georgia, serif;
   letter-spacing: -0.01em;
 }
+
+/* ======================================================================
+   Portails (gestion et espace client) - design UI UX Pro Max
+   Style : Minimalism & Swiss (sobre, grille, contraste eleve), navy de confiance,
+   rouge du logo en touche unique. Tokens poses sur <html> via :has() pour que les
+   fenetres (dialogues) rendues hors du portail heritent aussi du theme.
+   ====================================================================== */
+html:has(.portail) {
+  --background: oklch(0.975 0.006 255);
+  --foreground: oklch(0.2 0.035 255);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.2 0.035 255);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.2 0.035 255);
+  --primary: oklch(0.36 0.1 255);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.955 0.01 255);
+  --secondary-foreground: oklch(0.25 0.04 255);
+  --muted: oklch(0.955 0.01 255);
+  --muted-foreground: oklch(0.47 0.03 255);
+  --accent: oklch(0.945 0.015 255);
+  --accent-foreground: oklch(0.25 0.04 255);
+  --border: oklch(0.91 0.012 255);
+  --input: oklch(0.88 0.015 255);
+  --ring: oklch(0.5 0.14 255);
+  --sidebar: oklch(0.22 0.055 255);
+  --sidebar-foreground: oklch(0.9 0.015 255);
+  --sidebar-primary: oklch(0.55 0.21 25);
+  --sidebar-primary-foreground: oklch(0.99 0 0);
+  --sidebar-accent: oklch(0.3 0.06 255);
+  --sidebar-accent-foreground: oklch(0.99 0 0);
+  --sidebar-border: oklch(0.3 0.05 255);
+  --radius: 0.75rem;
+}
+.portail {
+  font-family: var(--font-portail), var(--font-sans), system-ui, sans-serif;
+  font-feature-settings: "tnum" 1, "cv11" 1;
+}
+.portail h1,
+.portail h2,
+.portail h3,
+.portail [data-slot="card-title"] {
+  font-family: var(--font-portail-titre), var(--font-sans), system-ui, sans-serif;
+  letter-spacing: -0.01em;
+}
+
+/* Cartes : relief discret, bordure fine */
+.portail [data-slot="card"] {
+  box-shadow: 0 1px 2px oklch(0.2 0.035 255 / 0.05), 0 8px 24px -14px oklch(0.2 0.035 255 / 0.14);
+}
+
+/* Tableaux : en-tete sobre en petites capitales, lignes aerees */
+.portail thead th {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+  background: var(--muted);
+}
+.portail tbody tr { transition: background-color 150ms ease-out; }
+
+/* Barre laterale sombre : repere actif a gauche (rouge du logo) */
+.portail .nav-lien { position: relative; transition: background-color 180ms ease-out, color 180ms ease-out; }
+.portail .nav-lien::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 22%;
+  bottom: 22%;
+  width: 3px;
+  border-radius: 0 3px 3px 0;
+  background: var(--sidebar-primary);
+  transform: scaleY(0);
+  transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.portail .nav-lien[aria-current="page"]::before { transform: scaleY(1); }
+
+/* ---------- Motion des portails (sobre : 150-300 ms, transform et opacity uniquement) ---------- */
+@keyframes portail-entree {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes portail-carte {
+  from { opacity: 0; transform: translateY(14px) scale(0.985); }
+  to { opacity: 1; transform: none; }
+}
+/* A chaque changement de page ((app)/template.tsx) */
+.portail-entree { animation: portail-entree 260ms cubic-bezier(0.22, 1, 0.36, 1) both; }
+/* Cascade des cartes d'une grille : 55 ms entre deux cartes, 8 maximum */
+.portail-cascade > * { animation: portail-carte 340ms cubic-bezier(0.22, 1, 0.36, 1) both; }
+.portail-cascade > *:nth-child(2) { animation-delay: 55ms; }
+.portail-cascade > *:nth-child(3) { animation-delay: 110ms; }
+.portail-cascade > *:nth-child(4) { animation-delay: 165ms; }
+.portail-cascade > *:nth-child(5) { animation-delay: 220ms; }
+.portail-cascade > *:nth-child(6) { animation-delay: 275ms; }
+.portail-cascade > *:nth-child(n + 7) { animation-delay: 330ms; }
+/* Carte chiffre : soulevement au survol */
+.stat-carte { transition: transform 200ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 200ms ease-out, border-color 200ms; }
+.stat-carte:hover { transform: translateY(-3px); box-shadow: 0 14px 30px -16px oklch(0.2 0.035 255 / 0.3); border-color: var(--primary); }
+.stat-carte:active { transform: translateY(-1px); }
+
+@media (prefers-reduced-motion: reduce) {
+  .portail-entree, .portail-cascade > * { animation: none; }
+  .stat-carte, .stat-carte:hover, .stat-carte:active { transition: none; transform: none; }
+  .portail .nav-lien::before { transition: none; }
+}
