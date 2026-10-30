@@ -3,9 +3,11 @@ import Link from "next/link"
 import { ArrowRight, CheckCircle2, GraduationCap } from "lucide-react"
 import { buttonVariants } from "@/components/ui/button"
 import { Reveal } from "@/components/reveal"
-import { ATOUTS, SERVICES } from "@/lib/site-content"
+import { ATOUTS } from "@/lib/site-content"
+import { servicesSite } from "@/lib/site-db"
 
-export default function Accueil() {
+export default async function Accueil() {
+  const SERVICES = await servicesSite()
   return (
     <>
       <section className="mx-auto grid max-w-6xl items-center gap-10 px-4 py-12 md:grid-cols-[1.1fr_0.9fr] md:py-20">

@@ -5,7 +5,8 @@ import { CheckCircle2 } from "lucide-react"
 import { buttonVariants } from "@/components/ui/button"
 import { Reveal } from "@/components/reveal"
 import { PageBanner } from "@/components/site/page-banner"
-import { ATOUTS, SERVICES } from "@/lib/site-content"
+import { ATOUTS } from "@/lib/site-content"
+import { servicesSite } from "@/lib/site-db"
 
 export const metadata: Metadata = {
   title: "À propos",
@@ -21,8 +22,8 @@ const CYCLE = [
   "États financiers : bilan, compte de résultat, annexes",
 ]
 
-export default function AProposPage() {
-  const cycle = SERVICES.find((s) => s.slug === "assistance-comptable-fiscale-sociale")!
+export default async function AProposPage() {
+  const cycle = (await servicesSite()).find((s) => s.slug === "assistance-comptable-fiscale-sociale")!
   return (
     <>
       <PageBanner

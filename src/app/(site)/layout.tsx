@@ -1,11 +1,16 @@
 import Image from "next/image"
 import Link from "next/link"
 import { SiteHeader } from "@/components/site/site-header"
-import { NAV_SITE, SERVICES } from "@/lib/site-content"
-import { CONTACT, HORAIRES } from "@/lib/constants"
+import { NAV_SITE } from "@/lib/site-content"
+import { contactSite, servicesSite } from "@/lib/site-db"
+import { HORAIRES } from "@/lib/constants"
 import { MessageCircle } from "lucide-react"
 
-export default function SiteLayout({ children }: { children: React.ReactNode }) {
+// Contenu modifiable depuis /gestion/site : rendu a chaque requete
+export const dynamic = "force-dynamic"
+
+export default async function SiteLayout({ children }: { children: React.ReactNode }) {
+  const [CONTACT, SERVICES] = await Promise.all([contactSite(), servicesSite()])
   return (
     <div className="titres-serif flex min-h-dvh flex-col overflow-x-clip bg-background">
       <SiteHeader />

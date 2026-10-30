@@ -5,18 +5,18 @@ import { ArrowRight, Check, MessageCircle } from "lucide-react"
 import { Reveal } from "@/components/reveal"
 import { PageBanner } from "@/components/site/page-banner"
 import { buttonVariants } from "@/components/ui/button"
-import { CONTACT } from "@/lib/constants"
-import { LIVRES, SERVICES } from "@/lib/site-content"
+import { contactSite, livresSite, servicesSite } from "@/lib/site-db"
 
-const NUMERO = CONTACT.whatsapp.lien.match(/wa\.me\/(\d+)/)?.[1]
-const lienAchat = (titre: string) => `https://wa.me/${NUMERO}?text=` + encodeURIComponent(`Bonjour CFDC, je souhaite acheter : ${titre}.`)
+const lienAchat = (numero: string, titre: string) => `https://wa.me/${numero}?text=` + encodeURIComponent(`Bonjour CFDC, je souhaite acheter : ${titre}.`)
+const fcfa = new Intl.NumberFormat("fr-FR")
 
 export const metadata: Metadata = {
   title: "Nos services",
   description: "Création d'entreprise, gestion, assistance comptable, fiscale et sociale, attestations et documents administratifs, et vente de livres comptables.",
 }
 
-export default function ServicesPage() {
+export default async function ServicesPage() {
+  const [SERVICES, LIVRES, contact] = await Promise.all([servicesSite(), livresSite(), contactSite()])
   return (
     <>
       <PageBanner
@@ -78,13 +78,14 @@ export default function ServicesPage() {
                 <div className="flex flex-1 flex-col p-5">
                   <h3 className="text-lg font-semibold">{l.titre}</h3>
                   <p className="mt-2 flex-1 text-sm text-muted-foreground">{l.description}</p>
+                  {l.prix != null && <p className="mt-3 text-lg font-semibold tabular-nums">{fcfa.format(l.prix)} FCFA</p>}
                   <a
-                    href={lienAchat(l.titre)}
+                    href={lienAchat(contact.whatsapp.numero, l.titre)}
                     target="_blank"
                     rel="noopener noreferrer"
                     className={buttonVariants({ className: "mt-4 w-full" })}
                   >
-                    <MessageCircle aria-hidden /> {l.slug === "autres-registres" ? "Commander sur WhatsApp" : "Acheter sur WhatsApp"}
+                    <MessageCircle aria-hidden /> {/autres/i.test(l.titre) ? "Commander sur WhatsApp" : "Acheter sur WhatsApp"}
                   </a>
                 </div>
               </li>

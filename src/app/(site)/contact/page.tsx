@@ -4,8 +4,7 @@ import { Horaires } from "@/components/horaires"
 import { PageBanner } from "@/components/site/page-banner"
 import { ContactForm } from "@/components/site/contact-form"
 import { DemandeCTA } from "@/components/site/demande-cta"
-import { SERVICES } from "@/lib/site-content"
-import { CONTACT } from "@/lib/constants"
+import { contactSite, servicesSite } from "@/lib/site-db"
 import { Mail, MessageCircle, Phone } from "lucide-react"
 
 export const metadata: Metadata = {
@@ -15,6 +14,7 @@ export const metadata: Metadata = {
 
 export default async function ContactPage({ searchParams }: { searchParams: Promise<{ service?: string }> }) {
   const { service } = await searchParams
+  const [CONTACT, SERVICES] = await Promise.all([contactSite(), servicesSite()])
   const sujet = SERVICES.find((s) => s.slug === service)?.titre
 
   return (

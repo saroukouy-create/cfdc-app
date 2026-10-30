@@ -7,6 +7,7 @@ import { Reveal } from "@/components/reveal"
 import { PageBanner } from "@/components/site/page-banner"
 import { DemandeCTA } from "@/components/site/demande-cta"
 import { SERVICES } from "@/lib/site-content"
+import { servicesSite } from "@/lib/site-db"
 
 // Une page statique par service, generee au build
 export function generateStaticParams() {
@@ -15,15 +16,16 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params
-  const s = SERVICES.find((x) => x.slug === slug)
+  const s = (await servicesSite()).find((x) => x.slug === slug)
   return s ? { title: s.titre, description: s.accroche } : {}
 }
 
 export default async function ServicePage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
-  const service = SERVICES.find((s) => s.slug === slug)
+  const tous = await servicesSite()
+  const service = tous.find((s) => s.slug === slug)
   if (!service) notFound()
-  const autres = SERVICES.filter((s) => s.slug !== slug)
+  const autres = tous.filter((s) => s.slug !== slug)
 
   return (
     <>

@@ -173,3 +173,23 @@ model DemandeContact {
   @@index([statut, createdAt])
   @@index([clientId])
 }
+
+// Contenu du site public modifiable depuis /gestion/site
+// cle : "contact" | "services" ; valeur : JSON valide par l'API
+model ReglageSite {
+  cle       String   @id
+  valeur    Json
+  updatedAt DateTime @updatedAt
+}
+
+model LivreSite {
+  id          String   @id @default(cuid())
+  titre       String
+  description String   @db.Text
+  prix        Int?
+  image       String
+  alt         String
+  visible     Boolean  @default(true)
+  ordre       Int      @default(0)
+  createdAt   DateTime @default(now())
+}
