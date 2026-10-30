@@ -1,6 +1,6 @@
 "use client"
 
-import { BarChart3, Building2, FileCheck2, Globe, Inbox, KeyRound, LayoutDashboard, Settings, Users } from "lucide-react"
+import { BarChart3, Building2, FileCheck2, Globe, Inbox, KeyRound, Landmark, LayoutDashboard, Settings, Users } from "lucide-react"
 import { AppShell, type NavItem } from "@/components/layout/app-shell"
 
 // Les icones (fonctions) ne peuvent pas passer d'un composant serveur a un composant client : nav definie ici
@@ -11,6 +11,7 @@ const NAV: NavItem[] = [
   { href: "/gestion/comptabilite", label: "Comptabilité", icon: BarChart3 },
   { href: "/gestion/attestations", label: "Attestations & services", icon: FileCheck2 },
   { href: "/gestion/prospects", label: "Demandes de devis", icon: Inbox },
+  { href: "/gestion/outils", label: "Outils fiscaux", icon: Landmark },
 ]
 
 export function StaffShell({ admin, utilisateur, children }: { admin: boolean; utilisateur: string; children: React.ReactNode }) {
