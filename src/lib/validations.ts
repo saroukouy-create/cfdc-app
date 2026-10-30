@@ -119,3 +119,12 @@ export const inscriptionSchema = z
   .refine((d) => d.password === d.confirmation, { path: ["confirmation"], message: "Les mots de passe ne correspondent pas" })
 
 export type InscriptionInput = z.input<typeof inscriptionSchema>
+
+export const changerMotDePasseSchema = z
+  .object({
+    actuel: z.string().min(1, "Mot de passe actuel requis"),
+    nouveau: motDePasse,
+    confirmation: z.string(),
+  })
+  .refine((d) => d.nouveau === d.confirmation, { path: ["confirmation"], message: "Les mots de passe ne correspondent pas" })
+  .refine((d) => d.nouveau !== d.actuel, { path: ["nouveau"], message: "Choisissez un mot de passe différent de l'actuel" })
