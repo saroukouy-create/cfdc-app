@@ -15,7 +15,8 @@ export async function middleware(req: NextRequest) {
 
   const equipe = token.role === "ADMIN" || token.role === "CONSEILLER"
   if (gestion && !equipe) return NextResponse.redirect(new URL("/espace", req.url))
-  if (!gestion && equipe) return NextResponse.redirect(new URL("/gestion", req.url))
+  // Le personnel n'entre pas dans l'espace client par le site : il passe par la connexion client, pas par la gestion
+  if (!gestion && equipe) return NextResponse.redirect(new URL("/connexion", req.url))
   if (pathname.startsWith("/gestion/admin") && token.role !== "ADMIN") return NextResponse.redirect(new URL("/gestion", req.url))
   return NextResponse.next()
 }
