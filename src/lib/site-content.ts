@@ -92,6 +92,68 @@ export const SERVICES: Service[] = [
   },
 ]
 
+export type Livre = { slug: string; titre: string; description: string; image: string; alt: string }
+
+// Vente de livres comptables : visuels generes avec Canva (public/images/livres), achat par WhatsApp.
+export const LIVRES: Livre[] = [
+  {
+    slug: "journal-general",
+    titre: "Journal général",
+    description: "Enregistrez chronologiquement toutes vos opérations comptables.",
+    image: "/images/livres/journal-general.jpg",
+    alt: "Journal général, livre comptable relié bleu marine posé sur un bureau",
+  },
+  {
+    slug: "livre-de-paie",
+    titre: "Livre de paie",
+    description: "Suivez les salaires, retenues et cotisations de votre personnel.",
+    image: "/images/livres/livre-de-paie.jpg",
+    alt: "Livre de paie relié vert avec des bulletins de salaire",
+  },
+  {
+    slug: "grand-livre",
+    titre: "Grand livre",
+    description: "Regroupez les mouvements de chaque compte pour en connaître le solde.",
+    image: "/images/livres/grand-livre.jpg",
+    alt: "Grand livre relié bordeaux ouvert sur un bureau",
+  },
+  {
+    slug: "balance-generale",
+    titre: "Balance générale",
+    description: "Contrôlez l'équilibre de vos comptes avant d'établir les états financiers.",
+    image: "/images/livres/balance-generale.jpg",
+    alt: "Registre de balance générale gris anthracite à côté d'une calculatrice",
+  },
+  {
+    slug: "livre-inventaire",
+    titre: "Livre d'inventaire",
+    description: "Consignez l'inventaire annuel de vos biens, stocks, créances et dettes.",
+    image: "/images/livres/livre-inventaire.jpg",
+    alt: "Livre d'inventaire relié marron près d'un porte-bloc",
+  },
+  {
+    slug: "registre-tps-achats",
+    titre: "Registre de TPS achats",
+    description: "Tenez le registre de la TPS déductible sur vos achats.",
+    image: "/images/livres/registre-tps-achats.jpg",
+    alt: "Registre de TPS achats relié bleu avec des factures fournisseurs",
+  },
+  {
+    slug: "registre-tps-ventes",
+    titre: "Registre de TPS prestations / ventes",
+    description: "Tenez le registre de la TPS collectée sur vos prestations et vos ventes.",
+    image: "/images/livres/registre-tps-ventes.jpg",
+    alt: "Registre de TPS prestations et ventes relié vert d'eau",
+  },
+  {
+    slug: "autres-registres",
+    titre: "Autres registres sur commande",
+    description: "Vous avez besoin d'un autre registre ? Nous le préparons sur commande.",
+    image: "/images/livres/autres-registres.jpg",
+    alt: "Plusieurs registres comptables reliés de couleurs différentes",
+  },
+]
+
 export const FORMATIONS = [
   {
     id: "secretaire-comptable",

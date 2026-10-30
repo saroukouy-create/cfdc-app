@@ -1,14 +1,19 @@
 import type { Metadata } from "next"
 import Image from "next/image"
 import Link from "next/link"
-import { ArrowRight, Check } from "lucide-react"
+import { ArrowRight, Check, MessageCircle } from "lucide-react"
 import { Reveal } from "@/components/reveal"
 import { PageBanner } from "@/components/site/page-banner"
-import { SERVICES } from "@/lib/site-content"
+import { buttonVariants } from "@/components/ui/button"
+import { CONTACT } from "@/lib/constants"
+import { LIVRES, SERVICES } from "@/lib/site-content"
+
+const NUMERO = CONTACT.whatsapp.lien.match(/wa\.me\/(\d+)/)?.[1]
+const lienAchat = (titre: string) => `https://wa.me/${NUMERO}?text=` + encodeURIComponent(`Bonjour CFDC, je souhaite acheter : ${titre}.`)
 
 export const metadata: Metadata = {
   title: "Nos services",
-  description: "Création d'entreprise, gestion, assistance comptable, fiscale et sociale, attestations et documents administratifs.",
+  description: "Création d'entreprise, gestion, assistance comptable, fiscale et sociale, attestations et documents administratifs, et vente de livres comptables.",
 }
 
 export default function ServicesPage() {
@@ -21,14 +26,25 @@ export default function ServicesPage() {
         alt="L'équipe CFDC en réunion"
         fil={[{ href: "/services", label: "Services" }]}
       />
-      <div className="mx-auto grid max-w-6xl gap-16 px-4 py-16">
+      <nav aria-label="Rubriques des services" className="mx-auto flex max-w-6xl flex-wrap gap-3 px-4 pt-10">
+        <a href="#prestations" className={buttonVariants({ variant: "outline" })}>
+          Nos prestations
+        </a>
+        <a href="#livres" className={buttonVariants({ variant: "outline" })}>
+          Vente de livres comptables
+        </a>
+      </nav>
+      <section id="prestations" aria-labelledby="titre-prestations" className="mx-auto grid max-w-6xl scroll-mt-24 gap-16 px-4 py-16">
+        <h2 id="titre-prestations" className="text-3xl font-semibold tracking-tight">
+          Nos prestations
+        </h2>
         {SERVICES.map((s, i) => (
           <Reveal key={s.slug} as="article" className="grid items-center gap-8 md:grid-cols-2">
             <div className={`relative aspect-[4/3] overflow-hidden rounded-3xl ${i % 2 ? "md:order-2" : ""}`}>
               <Image src={s.image} alt={s.alt} fill sizes="(min-width: 768px) 50vw, 100vw" className="object-cover" />
             </div>
             <div>
-              <h2 className="text-2xl font-semibold tracking-tight md:text-3xl">{s.titre}</h2>
+              <h3 className="text-2xl font-semibold tracking-tight md:text-3xl">{s.titre}</h3>
               <p className="mt-3 text-muted-foreground">{s.accroche}</p>
               <ul className="mt-5 space-y-2">
                 {s.prestations.slice(0, 4).map((p) => (
@@ -43,7 +59,39 @@ export default function ServicesPage() {
             </div>
           </Reveal>
         ))}
-      </div>
+      </section>
+
+      <section id="livres" aria-labelledby="titre-livres" className="scroll-mt-24 border-t bg-muted/30">
+        <div className="mx-auto max-w-6xl px-4 py-16">
+          <h2 id="titre-livres" className="text-3xl font-semibold tracking-tight">
+            Vente de livres comptables
+          </h2>
+          <p className="mt-3 max-w-2xl text-muted-foreground">
+            Des registres reliés, prêts à l&apos;emploi. Cliquez sur « Acheter sur WhatsApp » : votre message est déjà rédigé, il ne reste qu&apos;à l&apos;envoyer.
+          </p>
+          <ul className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {LIVRES.map((l) => (
+              <li key={l.slug} className="flex flex-col overflow-hidden rounded-2xl border bg-card">
+                <div className="relative aspect-[4/3]">
+                  <Image src={l.image} alt={l.alt} fill sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw" className="object-cover" />
+                </div>
+                <div className="flex flex-1 flex-col p-5">
+                  <h3 className="text-lg font-semibold">{l.titre}</h3>
+                  <p className="mt-2 flex-1 text-sm text-muted-foreground">{l.description}</p>
+                  <a
+                    href={lienAchat(l.titre)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={buttonVariants({ className: "mt-4 w-full" })}
+                  >
+                    <MessageCircle aria-hidden /> {l.slug === "autres-registres" ? "Commander sur WhatsApp" : "Acheter sur WhatsApp"}
+                  </a>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
     </>
   )
 }
