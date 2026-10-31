@@ -1,10 +1,14 @@
 import type { Metadata } from "next"
 import { Building2, Calculator, ExternalLink, FileText, Landmark } from "lucide-react"
+import { prisma } from "@/lib/prisma"
 import { PageHeader } from "@/components/layout/app-shell"
+import { RegistreDemarches } from "@/components/demarches/registre-demarches"
+import { formatDate } from "@/lib/format"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { buttonVariants } from "@/components/ui/button"
 
 export const metadata: Metadata = { title: "Outils fiscaux et comptables" }
+export const dynamic = "force-dynamic"
 
 const OUTILS = [
   {
@@ -37,7 +41,11 @@ const OUTILS = [
   },
 ]
 
-export default function OutilsPage() {
+export default async function OutilsPage() {
+  const [clients, demarches] = await Promise.all([
+    prisma.client.findMany({ select: { id: true, raisonSociale: true }, orderBy: { raisonSociale: "asc" } }),
+    prisma.demarche.findMany({ include: { client: { select: { raisonSociale: true } } }, orderBy: [{ dateDemarche: "desc" }, { createdAt: "desc" }], take: 30 }),
+  ])
   return (
     <>
       <PageHeader titre="Outils fiscaux et comptables" description="Accès rapide aux plateformes utilisées pour la facturation, les impôts et la comptabilité des entreprises" />
@@ -58,6 +66,30 @@ export default function OutilsPage() {
           </Card>
         ))}
       </div>
+
+      <Card className="mt-8">
+        <CardHeader>
+          <CardTitle>Démarches des clients</CardTitle>
+          <p className="text-sm text-muted-foreground">
+            Après une opération sur l&apos;une de ces plateformes, enregistrez-la ici : elle apparaît dans le compte du client (rubrique « Mes démarches ») et sur sa fiche.
+          </p>
+        </CardHeader>
+        <CardContent>
+          <RegistreDemarches
+            clients={clients}
+            lignes={demarches.map((d) => ({
+              id: d.id,
+              client: d.client.raisonSociale,
+              plateforme: d.plateforme,
+              objet: d.objet,
+              reference: d.reference,
+              montant: d.montant != null ? Number(d.montant) : null,
+              statut: d.statut,
+              date: formatDate(d.dateDemarche),
+            }))}
+          />
+        </CardContent>
+      </Card>
     </>
   )
 }

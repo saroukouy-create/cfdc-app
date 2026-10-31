@@ -5,6 +5,7 @@ import { FileDown } from "lucide-react"
 import { prisma } from "@/lib/prisma"
 import { syntheseClient } from "@/lib/donnees"
 import { PageHeader } from "@/components/layout/app-shell"
+import { ListeDemarches } from "@/components/demarches/liste-demarches"
 import { Badge } from "@/components/ui/badge"
 import { buttonVariants } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -21,6 +22,7 @@ export default async function ClientPage({ params }: { params: Promise<{ id: str
       user: { select: { email: true, nom: true, prenom: true } },
       dossiers: { orderBy: { updatedAt: "desc" } },
       demandes: { orderBy: { createdAt: "desc" }, take: 10 },
+      demarches: { orderBy: { dateDemarche: "desc" }, take: 20 },
     },
   })
   if (!client) notFound()
@@ -138,6 +140,15 @@ export default async function ClientPage({ params }: { params: Promise<{ id: str
           </CardContent>
         </Card>
       </div>
+
+      <Card className="mt-6">
+        <CardHeader>
+          <CardTitle>Démarches (e-MECeF, impôts, Perfecto, MonEntreprise.bj)</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <ListeDemarches demarches={client.demarches.map((d) => ({ ...d, montant: d.montant != null ? Number(d.montant) : null }))} />
+        </CardContent>
+      </Card>
     </>
   )
 }

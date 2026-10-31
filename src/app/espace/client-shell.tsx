@@ -1,12 +1,13 @@
 "use client"
 
-import { Building2, FileCheck2, Home, KeyRound } from "lucide-react"
+import { Building2, ClipboardList, FileCheck2, Home, KeyRound } from "lucide-react"
 import { AppShell, type NavItem } from "@/components/layout/app-shell"
 
 const NAV: NavItem[] = [
   { href: "/espace", label: "Mon espace", icon: Home },
   { href: "/espace/dossiers", label: "Mes dossiers", icon: Building2 },
   { href: "/espace/demandes", label: "Mes demandes", icon: FileCheck2 },
+  { href: "/espace/demarches", label: "Mes démarches", icon: ClipboardList },
   { href: "/espace/compte", label: "Mon compte", icon: KeyRound },
 ]
 

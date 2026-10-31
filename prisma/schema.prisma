@@ -37,6 +37,7 @@ model Client {
   user            User             @relation(fields: [userId], references: [id], onDelete: Cascade)
   dossiers        Dossier[]
   ecritures       Ecriture[]
+  demarches       Demarche[]
   demandes        DemandeService[]
   contacts        DemandeContact[]
   createdAt       DateTime         @default(now())
@@ -192,4 +193,35 @@ model LivreSite {
   visible     Boolean  @default(true)
   ordre       Int      @default(0)
   createdAt   DateTime @default(now())
+}
+
+// Registre des demarches faites pour un client sur les plateformes externes (e-MECeF, e-Services, Perfecto, MonEntreprise.bj)
+enum PlateformeDemarche {
+  E_MECEF
+  E_SERVICES
+  PERFECTO
+  MONENTREPRISE
+  AUTRE
+}
+
+enum StatutDemarche {
+  A_FAIRE
+  EN_COURS
+  TERMINEE
+}
+
+model Demarche {
+  id           String             @id @default(cuid())
+  clientId     String
+  client       Client             @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  plateforme   PlateformeDemarche
+  objet        String
+  reference    String?
+  montant      Decimal?           @db.Decimal(15, 2)
+  statut       StatutDemarche     @default(A_FAIRE)
+  dateDemarche DateTime           @default(now())
+  note         String?            @db.Text
+  createdAt    DateTime           @default(now())
+
+  @@index([clientId, dateDemarche])
 }

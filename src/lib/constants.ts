@@ -98,3 +98,18 @@ export const CONTACT = {
     lien: "https://wa.me/2290197443231?text=" + encodeURIComponent("Bonjour CFDC, je souhaite des informations sur vos services."),
   },
 } as const
+
+// Registre des demarches (plateformes externes)
+export const PLATEFORME_DEMARCHE: Record<string, string> = {
+  E_MECEF: "e-MECeF (factures normalisées)",
+  E_SERVICES: "e-Services des impôts",
+  PERFECTO: "Perfecto (comptabilité)",
+  MONENTREPRISE: "MonEntreprise.bj (création)",
+  AUTRE: "Autre",
+}
+
+export const STATUT_DEMARCHE: Record<string, string> = {
+  A_FAIRE: "À faire",
+  EN_COURS: "En cours",
+  TERMINEE: "Terminée",
+}

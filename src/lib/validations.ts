@@ -128,3 +128,15 @@ export const changerMotDePasseSchema = z
   })
   .refine((d) => d.nouveau === d.confirmation, { path: ["confirmation"], message: "Les mots de passe ne correspondent pas" })
   .refine((d) => d.nouveau !== d.actuel, { path: ["nouveau"], message: "Choisissez un mot de passe différent de l'actuel" })
+
+export const demarcheSchema = z.object({
+  clientId: z.string().min(1, "Client requis"),
+  plateforme: z.enum(["E_MECEF", "E_SERVICES", "PERFECTO", "MONENTREPRISE", "AUTRE"]),
+  objet: z.string().trim().min(2, "Objet requis").max(190),
+  reference: z.string().trim().max(190).optional().transform((v) => v || undefined),
+  montant: z.number().min(0).max(1_000_000_000_000).nullable().optional(),
+  statut: z.enum(["A_FAIRE", "EN_COURS", "TERMINEE"]),
+  dateDemarche: z.string().min(1, "Date requise"),
+  note: z.string().trim().max(2000).optional().transform((v) => v || undefined),
+})
+export const demarcheStatutSchema = z.object({ statut: z.enum(["A_FAIRE", "EN_COURS", "TERMINEE"]) })
