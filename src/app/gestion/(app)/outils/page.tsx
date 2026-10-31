@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import { Building2, Calculator, ExternalLink, FileText, Landmark } from "lucide-react"
 import { prisma } from "@/lib/prisma"
 import { PageHeader } from "@/components/layout/app-shell"
+import { JournalDemarches } from "@/components/demarches/journal-demarches"
 import { RegistreDemarches } from "@/components/demarches/registre-demarches"
 import { formatDate } from "@/lib/format"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -42,9 +43,10 @@ const OUTILS = [
 ]
 
 export default async function OutilsPage() {
-  const [clients, demarches] = await Promise.all([
+  const [clients, demarches, journal] = await Promise.all([
     prisma.client.findMany({ select: { id: true, raisonSociale: true }, orderBy: { raisonSociale: "asc" } }),
     prisma.demarche.findMany({ include: { client: { select: { raisonSociale: true } } }, orderBy: [{ dateDemarche: "desc" }, { createdAt: "desc" }], take: 30 }),
+    prisma.journalDemarche.findMany({ include: { client: { select: { raisonSociale: true } } }, orderBy: { createdAt: "desc" }, take: 50 }),
   ])
   return (
     <>
@@ -88,6 +90,16 @@ export default async function OutilsPage() {
               date: formatDate(d.dateDemarche),
             }))}
           />
+        </CardContent>
+      </Card>
+
+      <Card className="mt-6">
+        <CardHeader>
+          <CardTitle>Historique et traçabilité</CardTitle>
+          <p className="text-sm text-muted-foreground">Chaque enregistrement, changement de statut et suppression est conservé avec son auteur et son horodatage (les 50 dernières opérations).</p>
+        </CardHeader>
+        <CardContent>
+          <JournalDemarches evenements={journal.map((j) => ({ id: j.id, action: j.action, acteur: j.acteur, client: j.client.raisonSociale, detail: j.detail, createdAt: j.createdAt }))} />
         </CardContent>
       </Card>
     </>

@@ -38,6 +38,7 @@ model Client {
   dossiers        Dossier[]
   ecritures       Ecriture[]
   demarches       Demarche[]
+  journalDemarches JournalDemarche[]
   demandes        DemandeService[]
   contacts        DemandeContact[]
   createdAt       DateTime         @default(now())
@@ -224,4 +225,27 @@ model Demarche {
   createdAt    DateTime           @default(now())
 
   @@index([clientId, dateDemarche])
+}
+
+// Tracabilite : chaque creation, changement de statut et suppression d'une demarche, avec son auteur.
+// Pas de cle etrangere vers Demarche : l'historique reste apres une suppression.
+enum ActionDemarche {
+  CREATION
+  STATUT
+  SUPPRESSION
+}
+
+model JournalDemarche {
+  id         String         @id @default(cuid())
+  demarcheId String
+  clientId   String
+  client     Client         @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  action     ActionDemarche
+  acteur     String
+  acteurId   String?
+  detail     String         @db.Text
+  createdAt  DateTime       @default(now())
+
+  @@index([clientId, createdAt])
+  @@index([createdAt])
 }

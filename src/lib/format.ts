@@ -11,3 +11,7 @@ export function formatDate(d: Date | string | null | undefined) {
 export function formatTaille(octets: number) {
   return octets < 1024 * 1024 ? `${Math.round(octets / 1024)} Ko` : `${(octets / 1024 / 1024).toFixed(1)} Mo`
 }
+
+export function formatDateHeure(d: Date | string | null | undefined) {
+  return d ? new Date(d).toLocaleString("fr-FR", { dateStyle: "short", timeStyle: "short" }) : "—"
+}

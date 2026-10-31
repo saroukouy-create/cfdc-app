@@ -5,6 +5,7 @@ import { FileDown } from "lucide-react"
 import { prisma } from "@/lib/prisma"
 import { syntheseClient } from "@/lib/donnees"
 import { PageHeader } from "@/components/layout/app-shell"
+import { JournalDemarches } from "@/components/demarches/journal-demarches"
 import { ListeDemarches } from "@/components/demarches/liste-demarches"
 import { Badge } from "@/components/ui/badge"
 import { buttonVariants } from "@/components/ui/button"
@@ -23,6 +24,7 @@ export default async function ClientPage({ params }: { params: Promise<{ id: str
       dossiers: { orderBy: { updatedAt: "desc" } },
       demandes: { orderBy: { createdAt: "desc" }, take: 10 },
       demarches: { orderBy: { dateDemarche: "desc" }, take: 20 },
+      journalDemarches: { orderBy: { createdAt: "desc" }, take: 30 },
     },
   })
   if (!client) notFound()
@@ -147,6 +149,15 @@ export default async function ClientPage({ params }: { params: Promise<{ id: str
         </CardHeader>
         <CardContent>
           <ListeDemarches demarches={client.demarches.map((d) => ({ ...d, montant: d.montant != null ? Number(d.montant) : null }))} />
+        </CardContent>
+      </Card>
+
+      <Card className="mt-6">
+        <CardHeader>
+          <CardTitle>Historique des démarches</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <JournalDemarches evenements={client.journalDemarches.map((j) => ({ id: j.id, action: j.action, acteur: j.acteur, detail: j.detail, createdAt: j.createdAt }))} />
         </CardContent>
       </Card>
     </>
