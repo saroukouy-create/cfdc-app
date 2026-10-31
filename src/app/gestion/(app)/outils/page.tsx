@@ -1,5 +1,5 @@
 import type { Metadata } from "next"
-import { ExternalLink, FileText, Landmark, Calculator } from "lucide-react"
+import { Building2, Calculator, ExternalLink, FileText, Landmark } from "lucide-react"
 import { PageHeader } from "@/components/layout/app-shell"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { buttonVariants } from "@/components/ui/button"
@@ -28,13 +28,20 @@ const OUTILS = [
     bouton: "Ouvrir Perfecto",
     icone: Calculator,
   },
+  {
+    titre: "MonEntreprise.bj : création d'entreprise",
+    texte: "Guichet électronique de l'APIEx pour créer et gérer une entreprise au Bénin : établissement individuel ou société (SARL, SA, SAS...).",
+    lien: "https://monentreprise.bj/",
+    bouton: "Ouvrir MonEntreprise.bj",
+    icone: Building2,
+  },
 ]
 
 export default function OutilsPage() {
   return (
     <>
       <PageHeader titre="Outils fiscaux et comptables" description="Accès rapide aux plateformes utilisées pour la facturation, les impôts et la comptabilité des entreprises" />
-      <div className="grid gap-6 md:grid-cols-3">
+      <div className="portail-cascade grid gap-6 md:grid-cols-2 xl:grid-cols-4">
         {OUTILS.map(({ titre, texte, lien, bouton, icone: Icone }) => (
           <Card key={lien} className="flex flex-col">
             <CardHeader>
